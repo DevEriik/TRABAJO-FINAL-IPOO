@@ -5,14 +5,13 @@ class Pasajero extends Persona
 //LALALALALALALALALLALALALA
     //!ATRIBUTOS
     private $idViaje;
-    private $telefono;
+    
 
     //!CONSTRUCTOR
     public function __construct()
     {
         parent::__construct();
         $this->idViaje =    0;
-        $this->telefono = 0;
     }
 
     public function cargar($NroD, $Nom, $Ape, $idViaje = null, $telefono = null){	
@@ -24,10 +23,6 @@ class Pasajero extends Persona
     //! **********GETTERS*************
 
 
-    public function getTelefono()
-    {
-        return $this->telefono;
-    }
     public function getIdViaje()
     {
         return $this->idViaje;
@@ -46,10 +41,6 @@ class Pasajero extends Persona
         $this->idViaje=$id;
     }
 
-    public function setTelefono($telefono)
-    {
-        $this->telefono = $telefono;
-    }
 
     public function setMensajeoperacion($mensajeoperacion){
 		$this->mensajeoperacion=$mensajeoperacion;
@@ -61,7 +52,6 @@ class Pasajero extends Persona
     {
         $cadena= parent:: __toString() . "\n";
         $cadena.="ID viaje: " . $this->getIdViaje(). "\n";
-        $cadena.="Teléfono: " . $this->getTelefono() . "\n";
         return $cadena;
     }
 
@@ -79,7 +69,6 @@ class Pasajero extends Persona
 				if($row2=$base->Registro()){	
 				    parent::Buscar($dni);
 				    $this->setIdViaje($row2['idviaje']);
-                    $this->setTelefono($row2['ptelefono']);
 					$resp= true;
 				}				
 		 	}else{
@@ -122,8 +111,8 @@ class Pasajero extends Persona
 		$resp= false;
 		
 		if(parent::insertar()){
-		    $consultaInsertar="INSERT INTO pasajero(nroDoc, idviaje, telefono)
-				VALUES (".parent::getNrodoc().",".$this->getIdViaje().",'".$this->getTelefono()."')";
+		    $consultaInsertar="INSERT INTO pasajero(nroDoc, idviaje)
+				VALUES (".parent::getNrodoc().",".$this->getIdViaje().",')";
 		    if($base->Iniciar()){
 		        if($base->Ejecutar($consultaInsertar)){
 		            $resp=  true;

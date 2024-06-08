@@ -111,10 +111,10 @@ class Persona
                     $perso->cargar($NroDoc, $Nombre, $Apellido);
                     array_push($arregloPersona, $perso);
                 }
-            } else {
+            }else{
                 $this->setmensajeoperacion($base->getError());
             }
-        } else {
+        }else{
             $this->setmensajeoperacion($base->getError());
         }
         return $arregloPersona;
@@ -132,15 +132,11 @@ class Persona
             if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
                 $this->setIdPersona($id);
                 $resp = true;
-
-            } else {
+            }else{
                 $this->setmensajeoperacion($base->getError());
-
             }
-
-        } else {
+        }else{
             $this->setmensajeoperacion($base->getError());
-
         }
         return $resp;
     }
@@ -153,13 +149,11 @@ class Persona
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
-            } else {
+            }else{
                 $this->setmensajeoperacion($base->getError());
-
             }
-        } else {
+        }else{
             $this->setmensajeoperacion($base->getError());
-
         }
         return $resp;
     }
@@ -172,13 +166,11 @@ class Persona
             $consultaBorra = "DELETE FROM persona WHERE nrodoc=" . $this->getNrodoc();
             if ($base->Ejecutar($consultaBorra)) {
                 $resp = true;
-            } else {
+            }else{
                 $this->setmensajeoperacion($base->getError());
-
             }
-        } else {
+        }else{
             $this->setmensajeoperacion($base->getError());
-
         }
         return $resp;
     }
