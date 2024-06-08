@@ -109,7 +109,7 @@ class Empresa
             $consultaEmpresa = $consultaEmpresa . ' where ' . $condicion;
         }
         $consultaEmpresa .= " order by apellido "; //!NOSE QUE VA EN ESTA PARTE DEL apellido PERO EN EMPRESA (EL enombre?)
-        //echo $consultaPersonas;
+        
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaEmpresa)) {
                 $arregloEmpresa = array();
@@ -129,6 +129,28 @@ class Empresa
             $this->setmensajeoperacion($base->getError());
         }
         return $arregloEmpresa;
+    }
+
+
+    public function insertar()
+    {
+        $base = new BaseDatos();
+        $resp = false;
+        $consultaInsertar = "INSERT INTO empresa(idempresa, enombre, edireccion)
+				VALUES (" . $this->getidempresa() . ",'" . $this->getenombre() . "' . '" . $this->getedireccion() . "')";
+
+        if ($base->Iniciar()) {
+
+            if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
+                $this->setidempresa($id);  
+                $resp = true;
+            } else {
+                $this->setmensajeoperacion($base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion($base->getError());
+        }
+        return $resp;
     }
 
 
