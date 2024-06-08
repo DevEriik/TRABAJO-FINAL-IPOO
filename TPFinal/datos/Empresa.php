@@ -142,7 +142,25 @@ class Empresa
         if ($base->Iniciar()) {
 
             if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
-                $this->setidempresa($id);  
+                $this->setidempresa($id);
+                $resp = true;
+            } else {
+                $this->setmensajeoperacion($base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion($base->getError());
+        }
+        return $resp;
+    }
+
+
+    public function modificar()
+    {
+        $resp = false;
+        $base = new BaseDatos();
+        $consultaModifica = "UPDATE empresa SET idempresa='" . $this->getidempresa() . "',enombre='" . $this->getenombre() . "',edireccion=" . $this->getedireccion() . " WHERE idempresa=" . $this->getidempresa();
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
             } else {
                 $this->setmensajeoperacion($base->getError());
