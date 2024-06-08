@@ -103,5 +103,4 @@ class Viaje
 
     //! ************** METODOS DE MySql ***************
 
-    
 }
