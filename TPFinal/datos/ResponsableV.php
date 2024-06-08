@@ -1,23 +1,20 @@
 <?php
 
-class ResponsableV
+class ResponsableV extends Persona
 {
 
     //!ATRIBUTOS
 
     private $rnumeroempleado;
     private $rnumerolicencia;
-    private $rnombre;
-    private $rapellido;
 
     //!CONSTRUCTOR
 
-    public function __construct($rnumeroempleado, $rnumerolicencia, $rnombre, $rapellido)
+    public function __construct()
     {
-        $this->rnumeroempleado = $rnumeroempleado;
-        $this->rnumerolicencia = $rnumerolicencia;
-        $this->rnombre = $rnombre;
-        $this->rapellido = $rapellido;
+        parent::__construct();
+        $this->rnumeroempleado = 0;
+        $this->rnumerolicencia = 0;
     }
 
     //! ************GETTERS**************
@@ -32,15 +29,6 @@ class ResponsableV
         return $this->rnumerolicencia;
     }
 
-    public function getrnombre()
-    {
-        return $this->rnombre;
-    }
-
-    public function getrapellido()
-    {
-        return $this->rapellido;
-    }
 
 
     //! ************SETTERS**************
@@ -55,23 +43,12 @@ class ResponsableV
         $this->rnumerolicencia = $rnumerolicencia;
     }
 
-    public function setrnombre($rnombre)
-    {
-        $this->rnombre = $rnombre;
-    }
-
-    public function setrapellido($rapellido)
-    {
-        $this->rapellido = $rapellido;
-    }
 
     //! ************ __toString() ************
 
     public function __toString()
     {
         return "Numero de Empleado: " . $this->getrnumeroempleado() . "\n" .
-            "Numero de Licencia: " . $this->getrnumerolicencia() . "\n" .
-            "Nombre: " . $this->getrnombre() . "\n" .
-            "Apellido: " . $this->getrapellido() . "\n";
+            "Numero de Licencia: " . $this->getrnumerolicencia() . "\n" ;
     }
 }
