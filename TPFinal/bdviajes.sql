@@ -40,3 +40,60 @@ CREATE TABLE pasajero (
     )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
  
   
+----------- HAY QUE REVISAR LAS TABLAS POR SI LAS MOSCAS ---------------
+
+CREATE TABLE persona(
+    nrodocumento varchar(15),
+    nombre varchar(150), 
+    apellido varchar(150), 
+    PRIMARY KEY (nrodocumento)
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+-----------------------------------------------------------------------------------
+
+CREATE TABLE pasajero (
+    pdocumento varchar(15),
+	idviaje bigint,
+    telefono int,
+    PRIMARY KEY (pdocumento),
+    FOREIGN KEY (pdocumento) REFERENCES Persona(nrodocumento)
+	FOREIGN KEY (idviaje) REFERENCES viaje (idviaje)	
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+
+-----------------------------------------------------------------------------------
+
+CREATE TABLE responsable (
+    rnumeroempleado bigint AUTO_INCREMENT,
+    rnumerolicencia bigint,
+    rdocumento varchar(15),                   ----¿dos claves primarias? ------
+    PRIMARY KEY (rnumeroempleado, rdocumento)
+    FOREIGN KEY (rdocumento )REFERENCES Persona(nrodocumento)
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-----------------------------------------------------------------------------------
+
+CREATE TABLE empresa(
+    idempresa bigint AUTO_INCREMENT,
+    enombre varchar(150),
+    edireccion varchar(150),
+    PRIMARY KEY (idempresa)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-----------------------------------------------------------------------------------
+CREATE TABLE viaje (
+    idviaje bigint AUTO_INCREMENT, /*codigo de viaje*/
+	vdestino varchar(150),
+    vcantmaxpasajeros int,
+	idempresa bigint,
+    rnumeroempleado bigint,
+    vimporte float,
+    PRIMARY KEY (idviaje),
+    FOREIGN KEY (idempresa) REFERENCES empresa (idempresa),
+	FOREIGN KEY (rnumeroempleado) REFERENCES responsable (rnumeroempleado)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
+
+
+ 
