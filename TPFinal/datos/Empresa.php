@@ -11,11 +11,18 @@ class Empresa
 
     //!CONSTRUCTOR
 
-    public function __construct($idempresa, $enombre, $edireccion)
+    public function __construct()
     {
-        $this->idempresa = $idempresa;
-        $this->enombre = $enombre;
-        $this->edireccion = $edireccion;
+        $this->idempresa = 0;
+        $this->enombre = "";
+        $this->edireccion = "";
+    }
+
+    public function cargar($IdEmpresa, $ENombre, $EDireccion)
+    {
+        $this->setidempresa($IdEmpresa);
+        $this->setenombre($ENombre);
+        $this->setedireccion($EDireccion);
     }
 
     //! ************GETTERS*************
@@ -92,6 +99,37 @@ class Empresa
         return $resp;
     }
 
+
+    public function listar($condicion = "")
+    {
+        $arregloEmpresa = null;
+        $base = new BaseDatos();
+        $consultaEmpresa = "Select * from empresa ";
+        if ($condicion != "") {
+            $consultaEmpresa = $consultaEmpresa . ' where ' . $condicion;
+        }
+        $consultaEmpresa .= " order by apellido "; //!NOSE QUE VA EN ESTA PARTE DEL apellido PERO EN EMPRESA (EL enombre?)
+        //echo $consultaPersonas;
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($consultaEmpresa)) {
+                $arregloEmpresa = array();
+                while ($row2 = $base->Registro()) {
+                    $IdEmpresa = $row2['idempresa'];
+                    $ENombre = $row2['enombre'];
+                    $EDireccion = $row2['edireccion'];
+
+                    $empre = new Empresa();
+                    $empre->cargar($IdEmpresa, $ENombre, $EDireccion);
+                    array_push($arregloEmpresa, $empre);
+                }
+            } else {
+                $this->setmensajeoperacion($base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion($base->getError());
+        }
+        return $arregloEmpresa;
+    }
 
 
     
