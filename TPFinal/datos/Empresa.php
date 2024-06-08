@@ -172,5 +172,23 @@ class Empresa
     }
 
 
+    public function eliminar()
+    {
+        $base = new BaseDatos();
+        $resp = false;
+        if ($base->Iniciar()) {
+            $consultaBorra = "DELETE FROM empresa WHERE idempresa=" . $this->getidempresa();
+            if ($base->Ejecutar($consultaBorra)) {
+                $resp = true;
+            } else {
+                $this->setmensajeoperacion($base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion($base->getError());
+        }
+        return $resp;
+    }
+
+
     
 }
