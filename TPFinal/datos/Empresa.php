@@ -60,4 +60,39 @@ class Empresa
             "Nombre: " . $this->getenombre() . "\n" .
             "Dirección: " . $this->getedireccion() . "\n";
     }
+
+
+
+    //! ************** METODOS DE MySql ***************
+
+    /**
+     * Recupera los datos de una persona por dni
+     * @param int $dni
+     * @return true en caso de encontrar los datos, false en caso contrario
+     */
+    public function Buscar($idempresa)
+    {
+        $base = new BaseDatos();
+        $consultaPersona = "Select * from persona where idempresa=" . $idempresa;
+        $resp = false;
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($consultaPersona)) {
+                if ($row2 = $base->Registro()) {
+                    $this->setidempresa($idempresa);
+                    $this->setenombre($row2['enombre']);
+                    $this->setedireccion($row2['edireccion']);
+                    $resp = true;
+                }
+            } else {
+                $this->setmensajeoperacion($base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion($base->getError());
+        }
+        return $resp;
+    }
+
+
+
+    
 }
