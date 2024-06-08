@@ -35,7 +35,7 @@ CREATE TABLE pasajero (
     papellido varchar(150), 
 	ptelefono int, 
 	idviaje bigint,
-    PRIMARY KEY (pasajero),
+    PRIMARY KEY (pdocumento), /* Aca estaba PRIMARY KEY (pasajero) y lo correcto es PRIMARY KEY (pdocumento) */
 	FOREIGN KEY (idviaje) REFERENCES viaje (idviaje)	
     )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
  

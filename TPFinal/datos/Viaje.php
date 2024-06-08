@@ -98,4 +98,10 @@ class Viaje
             "ID Empleado: " . $this->getrnumeroempleado() . "\n" .
             "Importe: " . $this->getvimporte() . "\n";
     }
+
+
+
+    //! ************** METODOS DE MySql ***************
+
+    
 }
