@@ -6,6 +6,7 @@ class Persona
     private $nrodoc;
     private $nombre;
     private $apellido;
+    private $telefono;
     private $mensajeoperacion;
 
     public function __construct()
@@ -13,15 +14,16 @@ class Persona
         $this->nrodoc = "";
         $this->nombre = "";
         $this->apellido = "";
+        $this->telefono = 0;
         $this->mensajeoperacion = "";
-      
     }
 
-    public function cargar($NroD, $Nom, $Ape)
+    public function cargar($NroD, $Nom, $Ape, $Tel)
     {
         $this->setNrodoc($NroD);
         $this->setNombre($Nom);
         $this->setApellido($Ape);
+        $this->setTelefono($Tel);
     }
 
     public function setNrodoc($NroDNI)
@@ -43,6 +45,12 @@ class Persona
         $this->mensajeoperacion = $mensajeoperacion;
     }
 
+
+    public function setTelefono($Tel)
+    {
+        $this->telefono = $Tel;
+    }
+
     public function getNrodoc()
     {
         return $this->nrodoc;
@@ -62,6 +70,12 @@ class Persona
         return $this->mensajeoperacion;
     }
 
+
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
     /**
      * Recupera los datos de una persona por dni
      * @param int $dni
@@ -78,12 +92,13 @@ class Persona
                     $this->setNrodoc($dni);
                     $this->setNombre($row2['nombre']);
                     $this->setApellido($row2['apellido']);
+                    $this->setTelefono($row2['telefono']); //!VER COMO SE AGREGO EN LA BASE DE DATOS EL NOMBRE DE LA COLUMNA.
                     $resp = true;
                 }
-            }else{
+            } else {
                 $this->setmensajeoperacion($base->getError());
             }
-        }else{
+        } else {
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
@@ -106,15 +121,16 @@ class Persona
                     $NroDoc = $row2['nrodoc'];
                     $Nombre = $row2['nombre'];
                     $Apellido = $row2['apellido'];
+                    $Telefono = $row2['telefono']; //!VER COMO SE AGREGO EN LA BASE DE DATOS EL NOMBRE DE LA COLUMNA.
 
                     $perso = new Persona();
-                    $perso->cargar($NroDoc, $Nombre, $Apellido);
+                    $perso->cargar($NroDoc, $Nombre, $Apellido, $Telefono);
                     array_push($arregloPersona, $perso);
                 }
-            }else{
+            } else {
                 $this->setmensajeoperacion($base->getError());
             }
-        }else{
+        } else {
             $this->setmensajeoperacion($base->getError());
         }
         return $arregloPersona;
@@ -124,18 +140,18 @@ class Persona
     {
         $base = new BaseDatos();
         $resp = false;
-        $consultaInsertar = "INSERT INTO persona(nrodoc, apellido, nombre)
-				VALUES (" . $this->getNrodoc() . ",'" . $this->getApellido() . "')";
+        $consultaInsertar = "INSERT INTO persona(nrodoc, apellido, nombre, telefono)
+				VALUES (" . $this->getNrodoc() . ",'" . $this->getApellido() . "' . '" . $this->getNombre() . "'," . $this->getTelefono() . "')";
 
         if ($base->Iniciar()) {
 
             if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
-                $this->setIdPersona($id);
+                $this->setIdPersona($id);  //TODO: ACA DEBERIA DE IR NRODOC?
                 $resp = true;
-            }else{
+            } else {
                 $this->setmensajeoperacion($base->getError());
             }
-        }else{
+        } else {
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
@@ -145,14 +161,14 @@ class Persona
     {
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE persona SET apellido='" . $this->getApellido() . "',nombre='" . $this->getNombre() . "',nrodoc=" . $this->getNrodoc() . " WHERE nrodoc=" . $this->getNrodoc();
+        $consultaModifica = "UPDATE persona SET apellido='" . $this->getApellido() . "',nombre='" . $this->getNombre() . "',nrodoc=" . $this->getNrodoc(). ",telefono=" . $this->getTelefono() . " WHERE nrodoc=" . $this->getNrodoc();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
-            }else{
+            } else {
                 $this->setmensajeoperacion($base->getError());
             }
-        }else{
+        } else {
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
@@ -166,10 +182,10 @@ class Persona
             $consultaBorra = "DELETE FROM persona WHERE nrodoc=" . $this->getNrodoc();
             if ($base->Ejecutar($consultaBorra)) {
                 $resp = true;
-            }else{
+            } else {
                 $this->setmensajeoperacion($base->getError());
             }
-        }else{
+        } else {
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
@@ -177,7 +193,6 @@ class Persona
 
     public function __toString()
     {
-        return "\nNombre: " . $this->getNombre() . "\n Apellido:" . $this->getApellido() . "\n DNI: " . $this->getNrodoc() . "\n";
-
+        return "\nNombre: " . $this->getNombre() . "\n Apellido:" . $this->getApellido() . "\n DNI: " . $this->getNrodoc() . "\n" . "Telefono: " . $this->getTelefono();
     }
 }
