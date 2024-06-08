@@ -2,7 +2,7 @@
 
 class Pasajero extends Persona
 {
-
+//LALALALALALALALALLALALALA
     //!ATRIBUTOS
     private $idViaje;
     private $telefono;
@@ -11,7 +11,7 @@ class Pasajero extends Persona
     public function __construct()
     {
         parent::__construct();
-        $this->idViaje = 0;
+        $this->idViaje =    0;
         $this->telefono = 0;
     }
 
