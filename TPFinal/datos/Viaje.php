@@ -11,6 +11,7 @@ class Viaje
     private $objIdEmpresa;
     private $objResponsableV;
     private $vimporte;
+    private $colPasajeros; //!AGREGUE ESTE ATRIBUTO, TENEMOS QUE AGREGARLO EN LOS METODOS REALIZADOS.
     private $mensajeoperacion;
 
     //!CONSTRUCTOR
@@ -23,6 +24,7 @@ class Viaje
         $this->objIdEmpresa = new Empresa(); 
         $this->objResponsableV = new ResponsableV(); 
         $this->vimporte = 0;
+        $this->colPasajeros = [];
     }
 
     //! **********GETTERS************
@@ -62,6 +64,11 @@ class Viaje
         return $this->mensajeoperacion;
     }
 
+    public function getcolPasajeros()
+    {
+        return $this->colPasajeros;
+    }
+
     //! **********SETTERS*************
 
     public function setidviaje($idviaje)
@@ -99,6 +106,11 @@ class Viaje
         $this->mensajeoperacion = $mensajeoperacion;
     }
 
+    public function setcolPasajeros($colPasajeros)
+    {
+        $this->colPasajeros = $colPasajeros;
+    }
+
     //! *********** __toString() ************
 
     public function __toString()
@@ -108,7 +120,8 @@ class Viaje
             "Cant. Max. Pasajeros: " . $this->getvcantmaxpasajeros() . "\n" .
             "ID Empresa: " . $this->getobjIdEmpresa() . "\n" .
             "ID Empleado: " . $this->getobjResponsableV() . "\n" .
-            "Importe: " . $this->getvimporte() . "\n";
+            "Importe: " . $this->getvimporte() . "\n" . 
+            "Pasajeros: " . $this->getcolPasajeros() . "\n";
     }
 
 
