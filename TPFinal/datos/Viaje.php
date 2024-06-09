@@ -11,7 +11,7 @@ class Viaje
     private $objIdEmpresa;
     private $objResponsableV;
     private $vimporte;
-    private $colPasajeros; //!AGREGUE ESTE ATRIBUTO, TENEMOS QUE AGREGARLO EN LOS METODOS REALIZADOS.
+    private $colPasajeros;
     private $mensajeoperacion;
 
     //!CONSTRUCTOR
