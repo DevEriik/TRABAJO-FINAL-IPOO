@@ -216,6 +216,30 @@ class Viaje
         return $resp;
     }
 
+
+    //! ******** MODIFICAR ******** 
+    /**
+	 * Modifica una persona de la coleccion de personas.
+	 * Retorna true si pudo modificarla y false en caso contrario.
+	 * @return BOOLEAN $resp 
+	 */		
+    public function modificar()
+    {
+        $resp = false;
+        $base = new BaseDatos();
+        $consultaModifica = "UPDATE viaje SET vdestino='" . $this->getvdestino() . "',vcantmaxpasajeros='" . $this->getvcantmaxpasajeros() . "',idempresa=" . $this->getobjIdEmpresa(). ",rnumeroempleado=" . $this->getobjResponsableV() . " WHERE idviaje=" . $this->getidviaje();
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($consultaModifica)) {
+                $resp = true;
+            } else {
+                $this->setmensajeoperacion($base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion($base->getError());
+        }
+        return $resp;
+    }
+
     /** 
      * Metodo para Eliminar
      */
