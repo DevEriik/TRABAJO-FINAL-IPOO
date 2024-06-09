@@ -208,7 +208,7 @@ class Viaje
     {
         $base = new BaseDatos();
         $resp = false;
-        $consultaInsertar = "INSERT INTO viaje(idviaje, vdestino, vcantmaxpasajeros, idempresa, rnumeroempleado, vimporte)
+        $consultaInsertar = "INSERT INTO viaje(vdestino, vcantmaxpasajeros, idempresa, rnumeroempleado, vimporte)
 				VALUES (" . $this->getidviaje() . ",'" . $this->getvdestino() . "','" . $this->getvcantmaxpasajeros() . "','" . $this->getobjIdEmpresa() . "','" . $this->getobjResponsableV() . "','" . $this->getvimporte() . "')";
 
         if ($base->Iniciar()) {
