@@ -240,7 +240,7 @@ class Viaje
     {
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE viaje SET vdestino='" . $this->getvdestino() . "',vcantmaxpasajeros='" . $this->getvcantmaxpasajeros() . "',idempresa=" . $this->getobjIdEmpresa(). ",rnumeroempleado=" . $this->getobjResponsableV() . " WHERE idviaje=" . $this->getidviaje();
+        $consultaModifica = "UPDATE viaje SET vdestino='" . $this->getvdestino() . "',vcantmaxpasajeros='" . $this->getvcantmaxpasajeros() . "',idempresa=" . $this->getobjIdEmpresa()->getidempresa(). ",rnumeroempleado=" . $this->getobjResponsableV() . " WHERE idviaje=" . $this->getidviaje();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
