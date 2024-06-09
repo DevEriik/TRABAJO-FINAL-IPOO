@@ -8,8 +8,8 @@ class Viaje
     private $idviaje;
     private $vdestino;
     private $vcantmaxpasajeros;
-    private $idempresa; //!Aca debe de ser $objidempresa.
-    private $rnumeroempleado; //!Aca no es $rnumeroempleado es $objResponsableV. 
+    private $objIdEmpresa;
+    private $objResponsableV;
     private $vimporte;
     private $mensajeoperacion;
 
@@ -20,8 +20,8 @@ class Viaje
         $this->idviaje = 0;
         $this->vdestino = "";
         $this->vcantmaxpasajeros = 0;
-        $this->idempresa = 0; //!ACA COMO SON OBJETOS SE DEBEN DE CARGAR LOS OBJETOS. POR EJEMPLO: $objidempresa = new Empresa()
-        $this->rnumeroempleado = 0; //!ACA COMO SON OBJETOS SE DEBEN DE CARGAR LOS OBJETOS. POR EJEMPLO: $objResponsableV = new ResponsableV()
+        $this->objIdEmpresa = new Empresa(); 
+        $this->objResponsableV = new ResponsableV(); 
         $this->vimporte = 0;
     }
 
@@ -42,14 +42,14 @@ class Viaje
         return $this->vcantmaxpasajeros;
     }
 
-    public function getidempresa()
+    public function getobjIdEmpresa()
     {
-        return $this->idempresa;
+        return $this->objIdEmpresa;
     }
 
-    public function getrnumeroempleado()
+    public function getobjResponsableV()
     {
-        return $this->rnumeroempleado;
+        return $this->objResponsableV;
     }
 
     public function getvimporte()
@@ -79,14 +79,14 @@ class Viaje
         $this->vcantmaxpasajeros = $vcantmaxpasajeros;
     }
 
-    public function setidempresa($idempresa)
+    public function setobjIdEmpresa($objIdEmpresa)
     {
-        $this->idempresa = $idempresa;
+        $this->objIdEmpresa = $objIdEmpresa;
     }
 
-    public function setrnumeroempleado($rnumeroempleado)
+    public function setobjResponsableV($objResponsableV)
     {
-        $this->rnumeroempleado = $rnumeroempleado;
+        $this->objResponsableV = $objResponsableV;
     }
 
     public function setvimporte($vimporte)
@@ -106,8 +106,8 @@ class Viaje
         return "ID Viaje: " . $this->getidviaje() . "\n" .
             "Destino: " . $this->getvdestino() . "\n" .
             "Cant. Max. Pasajeros: " . $this->getvcantmaxpasajeros() . "\n" .
-            "ID Empresa: " . $this->getidempresa() . "\n" .
-            "ID Empleado: " . $this->getrnumeroempleado() . "\n" .
+            "ID Empresa: " . $this->getobjIdEmpresa() . "\n" .
+            "ID Empleado: " . $this->getobjResponsableV() . "\n" .
             "Importe: " . $this->getvimporte() . "\n";
     }
 
@@ -132,8 +132,8 @@ class Viaje
                     $this->setidviaje($row2['idviaje']);
                     $this->setvdestino($row2['vdestino']);
                     $this->setvcantmaxpasajeros($row2['vcantmaxpasajeros']);
-                    $this->setidempresa($row2['idempresa']);
-                    $this->setrnumeroempleado($row2['rnumeroempleado']);
+                    $this->setobjIdEmpresa($row2['idempresa']);
+                    $this->setobjResponsableV($row2['rnumeroempleado']);
                     $this->setvimporte($row2['vimporte']);
                     $resp = true;
                 }
@@ -196,7 +196,7 @@ class Viaje
         $base = new BaseDatos();
         $resp = false;
         $consultaInsertar = "INSERT INTO viaje(idviaje, vdestino, vcantmaxpasajeros, idempresa, rnumeroempleado, vimporte)
-				VALUES (" . $this->getidviaje() . ",'" . $this->getvdestino() . "','" . $this->getvcantmaxpasajeros() . "','" . $this->getidempresa() . "','" . $this->getrnumeroempleado() . "','" . $this->getvimporte() . "')";
+				VALUES (" . $this->getidviaje() . ",'" . $this->getvdestino() . "','" . $this->getvcantmaxpasajeros() . "','" . $this->getobjIdEmpresa() . "','" . $this->getobjResponsableV() . "','" . $this->getvimporte() . "')";
 
         if ($base->Iniciar()) {
 
@@ -247,8 +247,8 @@ class Viaje
         $this->setidviaje($idviaje);
         $this->setvdestino($vdestino);
         $this->setvcantmaxpasajeros($vcantmaxpasajeros);
-        $this->setidempresa($idempresa);
-        $this->setrnumeroempleado($rnumeroempleado);
+        $this->setobjIdEmpresa($idempresa);
+        $this->setobjResponsableV($rnumeroempleado);
         $this->setvimporte($vimporte);
     }
 
