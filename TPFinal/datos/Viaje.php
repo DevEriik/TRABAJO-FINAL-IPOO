@@ -164,22 +164,22 @@ class Viaje
 
     public static function listar($condicion=""){
 	    $arregloViaje = null;
-		$base=new BaseDatos();
-		$consultaViaje="Select * from persona ";
+		$base = new BaseDatos();
+		$consultaViaje="Select * from viaje ";
 		if ($condicion!=""){
 		    $consultaViaje=$consultaViaje.' where '.$condicion;
 		}
-		$consultaViaje.=" order by destino ";
+		$consultaViaje.=" order by idviaje ";
 		if($base->Iniciar()){
 			if($base->Ejecutar($consultaViaje)){				
 				$arregloViaje= array();
 				while($row2=$base->Registro()){
 				    $idviaje=$row2['idviaje'];
-					$destino=$row2['destino'];
-                    $cantMaxPasajeros=$row2['cantidad maxima'];
+					$destino=$row2['vdestino'];
+                    $cantMaxPasajeros=$row2['vcantmaxpasajeros'];
 					$idempresa=$row2['idempresa'];
-					$numeroempleado=$row2['numero empleado'];
-                    $importe=$row2['importe'];
+					$numeroempleado=$row2['rnumeroempleado'];
+                    $importe=$row2['vimporte'];
 				
 					$viaj=new Viaje();
 					$viaj->cargar($idviaje,$destino,$cantMaxPasajeros,$idempresa,$numeroempleado,$importe);
@@ -240,7 +240,7 @@ class Viaje
     {
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE viaje SET vdestino='" . $this->getvdestino() . "',vcantmaxpasajeros='" . $this->getvcantmaxpasajeros() . "',idempresa=" . $this->getobjIdEmpresa()->getidempresa(). ",rnumeroempleado=" . $this->getobjResponsableV() . " WHERE idviaje=" . $this->getidviaje();
+        $consultaModifica = "UPDATE viaje SET vdestino='" . $this->getvdestino() . "',vcantmaxpasajeros='" . $this->getvcantmaxpasajeros() . "',idempresa=" . $this->getobjIdEmpresa()->getidempresa(). ",rnumeroempleado=" . $this->getobjResponsableV()->getrnumeroempleado() . " WHERE idviaje=" . $this->getidviaje();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
