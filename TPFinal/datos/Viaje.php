@@ -8,8 +8,8 @@ class Viaje
     private $idviaje;
     private $vdestino;
     private $vcantmaxpasajeros;
-    private $idempresa;
-    private $rnumeroempleado;
+    private $idempresa; //!Aca debe de ser $objidempresa.
+    private $rnumeroempleado; //!Aca no es $rnumeroempleado es $objResponsableV. 
     private $vimporte;
     private $mensajeoperacion;
 
@@ -20,8 +20,8 @@ class Viaje
         $this->idviaje = 0;
         $this->vdestino = "";
         $this->vcantmaxpasajeros = 0;
-        $this->idempresa = 0;
-        $this->rnumeroempleado = 0;
+        $this->idempresa = 0; //!ACA COMO SON OBJETOS SE DEBEN DE CARGAR LOS OBJETOS. POR EJEMPLO: $objidempresa = new Empresa()
+        $this->rnumeroempleado = 0; //!ACA COMO SON OBJETOS SE DEBEN DE CARGAR LOS OBJETOS. POR EJEMPLO: $objResponsableV = new ResponsableV()
         $this->vimporte = 0;
     }
 
