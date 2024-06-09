@@ -137,17 +137,29 @@ class Viaje
     public function Buscar($idviaje)
     {
         $base = new BaseDatos();
-        $consultaPersona = "Select * from persona where idviaje=" . $idviaje;
+        $consultaIdViajeIngresado = "Select * from viaje where idviaje=" . $idviaje;
         $resp = false;
         if ($base->Iniciar()) {
-            if ($base->Ejecutar($consultaPersona)) {
+            if ($base->Ejecutar($consultaIdViajeIngresado)) {
                 if ($row2 = $base->Registro()) {
-                    $this->setidviaje($row2['idviaje']);
+
+                    //*Listo el viaje
+                    $this->setidviaje($idviaje);
                     $this->setvdestino($row2['vdestino']);
                     $this->setvcantmaxpasajeros($row2['vcantmaxpasajeros']);
-                    $this->setobjIdEmpresa($row2['idempresa']);
-                    $this->setobjResponsableV($row2['rnumeroempleado']);
+                    //*Listo la Empresa
+                    $newObjEmpresa = new Empresa();
+                    $newObjEmpresa->Buscar($row2['idempresa']);
+                    $this->setobjIdEmpresa($newObjEmpresa);
+                    //*Listo el responsableV
+                    $newObjResponsableV = new ResponsableV();
+                    $newObjResponsableV->Buscar($row2['rnumeroempleado']);
+                    $this->setobjResponsableV($newObjResponsableV);
                     $this->setvimporte($row2['vimporte']);
+                    //*Listo el pasajero
+                    $newObjPasajero = new Pasajero();
+                    $arregloPasajero = $newObjPasajero->listar("idviaje=" . $idviaje);
+                    $this->setcolPasajeros($arregloPasajero);
                     $resp = true;
                 }
 
