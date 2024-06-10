@@ -197,18 +197,32 @@ class Empresa
     }
 
 
+	//! ******** MODIFICAR ******** 
+    /**
+     * Modifica datos de algún registro
+     * Retorna true en caso de que la actualización haya sido exitosa, false en caso contrario
+     * @return BOOLEAN $resp
+     */
     public function modificar()
     {
+        //Inicializo variables
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE empresa SET idEmpresa='" . $this->getIdEmpresa() . "',eNombre='" . $this->getENombre() . "',eDireccion=" . $this->getEDireccion() . " WHERE idEmpresa=" . $this->getIdEmpresa();
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($consultaModifica)) {
+
+        $consultaModifica = "UPDATE empresa SET idEmpresa = '" . $this->getIdEmpresa() . "', eNombre = '" . $this->getENombre() . "', eDireccion = " . $this->getEDireccion() . " WHERE idEmpresa = " . $this->getIdEmpresa();
+
+        //Si se conecta a la base de datos
+        if ($base->Iniciar()){
+
+            //Si se ejecuta la consulta
+            if ($base->Ejecutar($consultaModifica)){
                 $resp = true;
-            } else {
+
+            }else{ //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-        } else {
+
+        }else{ //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;
@@ -223,16 +237,23 @@ class Empresa
 	 */		
     public function eliminar()
     {
+        //Inicializo variables
         $base = new BaseDatos();
         $resp = false;
-        if ($base->Iniciar()) {
+
+        //Si se conecta a la base de datos
+        if ($base->Iniciar()){
             $consultaBorra = "DELETE FROM empresa WHERE idEmpresa = " . $this->getIdEmpresa();
+
+            //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaBorra)) {
                 $resp = true;
-            } else {
+
+            }else{ //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-        } else {
+
+        }else{ //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;

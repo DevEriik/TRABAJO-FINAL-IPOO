@@ -221,7 +221,7 @@ class Viaje
         $base = new BaseDatos();
         $resp = false;
         $consultaInsertar = "INSERT INTO viaje(vdestino, vcantmaxpasajeros, idempresa, rnumeroempleado, vimporte)
-				VALUES (" . $this->getvdestino() . "','" . $this->getvcantmaxpasajeros() . "','" . $this->getobjIdEmpresa() . "','" . $this->getobjResponsableV() . "','" . $this->getvimporte() . "');";
+				VALUES (" . $this->getvdestino() . "','" . $this->getvcantmaxpasajeros() . "','" . $this->getobjIdEmpresa()->getIdEmpresa() . "','" . $this->getobjResponsableV()->getrnumeroempleado() . "','" . $this->getvimporte() . "');";
 
         if ($base->Iniciar()) {
 
