@@ -224,7 +224,7 @@ class Persona
     {
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE persona SET apellido='" . $this->getApellido() . "',nombre='" . $this->getNombre() . "',nrodoc=" . $this->getNrodoc(). ",telefono=" . $this->getTelefono() . " WHERE nrodoc=" . $this->getNrodoc();
+        $consultaModifica = "UPDATE persona SET apellido = '" . $this->getApellido() . "',nombre = '" . $this->getNombre() . "',nrodoc = " . $this->getNrodoc(). ",telefono = " . $this->getTelefono() . " WHERE nrodoc = " . $this->getNrodoc();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;

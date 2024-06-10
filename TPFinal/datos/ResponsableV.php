@@ -187,10 +187,10 @@ class ResponsableV extends Persona
     {
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE responsable SET apellido = '" . parent::getApellido() . "',nombre = '" . parent::getNombre() . "',nrodoc = " . parent::getNrodoc(). ",telefono = " . parent::getTelefono() . ", N° de empleado = ".$this->getRnumeroEmpleado().", N° de licencia = ".$this->getRnumeroLicencia()." WHERE nrodoc = " . parent::getNrodoc(); //! Ver esto********************
+        $consultaModifica = "UPDATE responsable SET apellido = '" . parent::getApellido() . "', nombre = '" . parent::getNombre() . "',nrodoc = " . parent::getNrodoc(). ", telefono = " . parent::getTelefono() . ", N° de empleado = ".$this->getRnumeroEmpleado().", rnumerolicencia = ".$this->getRnumeroLicencia()." WHERE nrodoc = " . parent::getNrodoc(); //! Ver esto con los nombres de las columnas de la tabla********************
 
         //Si se conecta a la base de datos 
-        if ($base->Iniciar()) {
+        if ($base->Iniciar()){
 
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaModifica)) {
