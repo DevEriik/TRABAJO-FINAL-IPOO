@@ -45,16 +45,17 @@ CREATE TABLE pasajero (
 CREATE TABLE persona(
     nrodocumento varchar(15),
     nombre varchar(150), 
-    apellido varchar(150), 
+    apellido varchar(150),
+    telefono int, 
     PRIMARY KEY (nrodocumento)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
 -----------------------------------------------------------------------------------
 
 CREATE TABLE pasajero (
+    -- idpasajero int AUTO_INCREMENT,  ¿hay que agregar un id?
     pdocumento varchar(15),
-	idviaje bigint,
-    telefono int,
+	idviaje bigint,                   -- ¿objeto viaje?
     PRIMARY KEY (pdocumento),
     FOREIGN KEY (pdocumento) REFERENCES Persona(nrodocumento)
 	FOREIGN KEY (idviaje) REFERENCES viaje (idviaje)	
@@ -66,9 +67,9 @@ CREATE TABLE pasajero (
 CREATE TABLE responsable (
     rnumeroempleado bigint AUTO_INCREMENT,
     rnumerolicencia bigint,
-    rdocumento varchar(15),                   ----¿dos claves primarias? ------
+    rnrodocumento varchar(15),                   ----¿dos claves primarias? ------
     PRIMARY KEY (rnumeroempleado, rdocumento)
-    FOREIGN KEY (rdocumento )REFERENCES Persona(nrodocumento)
+    FOREIGN KEY (rnrodocumento )REFERENCES Persona(nrodocumento)
     )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -----------------------------------------------------------------------------------
