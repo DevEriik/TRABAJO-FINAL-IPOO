@@ -40,8 +40,6 @@ class Pasajero extends Persona
     }
 
     //! **********GETTERS*************
-
-
     public function getIdViaje()
     {
         return $this->idViaje;
@@ -53,8 +51,6 @@ class Pasajero extends Persona
     }
 
     //! **********SETTERS**********
-
-
     public function setIdViaje($id)
     {
         $this->idViaje=$id;
@@ -83,7 +79,7 @@ class Pasajero extends Persona
 	 */		
     public function Buscar($dni){
 		$base = new BaseDatos();
-		$consulta = "Select * from estudiante where nrodoc = ".$dni;
+		$consulta = "Select * from pasajero where nrodoc = ".$dni;
 		$resp = false;
 
 		//Si se conecta a la base de datos
@@ -108,7 +104,7 @@ class Pasajero extends Persona
     //! ******** LISTAR ******** 
     /**
 	 * Lista los datos de todos los pasajeros por medio de una consulta ingresada como parametro.
-	 * Retorna un array con los datos obtenidos.
+	 * Retorna un array con los datos obtenidos, si no encuentra nada retorna un array vacio.
 	 * @param STRING $condicion
 	 * @return ARRAY $arreglo 
 	 */		
@@ -194,6 +190,25 @@ class Pasajero extends Persona
 	 */		
     public function modificar()
     {
+        $resp = false;
+        $base = new BaseDatos();
+        $consultaModifica = "UPDATE pasajero SET apellido = '" . parent::getApellido() . "', nombre = '" . parent::getNombre() . "', nrodoc = " . parent::getNrodoc(). ", telefono = " . parent::getTelefono() . ", ID Viaje = ".$this->getIdViaje()." WHERE nrodoc = " . parent::getNrodoc(); //! Ver esto
+
+        //Si se conecta a la base de datos 
+        if ($base->Iniciar()) {
+
+            //Si se ejecuta la consulta
+            if ($base->Ejecutar($consultaModifica)) {
+                $resp = true;
+
+            }else{ //Si no se ejecuta la consulta 
+                $this->setmensajeOperacion($base->getError());
+            }
+
+        }else{ //Si no se conecta a la base de datos
+            $this->setmensajeOperacion($base->getError());
+        }
+        return $resp;
 
 	}
 

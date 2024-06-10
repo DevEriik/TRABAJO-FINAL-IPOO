@@ -12,7 +12,7 @@ class Persona
     private $nombre;
     private $apellido;
     private $telefono;
-    private $mensajeoperacion;
+    private $mensajeOperacion;
 
     //! ******** CONSTRUCTOR ******** 
     public function __construct()
@@ -21,7 +21,6 @@ class Persona
         $this->nombre = "";
         $this->apellido = "";
         $this->telefono = 0;
-        $this->mensajeoperacion = "";
     }
 
     public function cargar($NroD, $Nom, $Ape, $Tel)
@@ -58,12 +57,15 @@ class Persona
         $this->mensajeOperacion = $mensajeOperacion;
     }
 
-
+    //Setea el valor de telefono
     public function setTelefono($Tel)
     {
         $this->telefono = $Tel;
     }
 
+
+    //! ********** GETTERS *************
+    //Obtiene el valor de nroDoc
     public function getNrodoc()
     {
         return $this->nrodoc;
@@ -87,13 +89,13 @@ class Persona
         return $this->mensajeOperacion;
     }
 
-
-
     public function getTelefono()
     {
         return $this->telefono;
     }
 
+
+	//! ********* BUSCAR *********
     /**
      * Recupera los datos de una persona por dni
      * @param int $dni
@@ -132,7 +134,7 @@ class Persona
     //! ******** LISTAR ******** 
     /**
 	 * Lista los datos de todas las personas por medio de una consulta ingresada como parametro.
-	 * Retorna un array con los datos obtenidos.
+	 * Retorna un array con los datos obtenidos, si no encuentra nada retorna un array vacio.
 	 * @param STRING $condicion
 	 * @return ARRAY $arregloPersona 
 	 */		
@@ -203,10 +205,10 @@ class Persona
                 $this->setIdPersona($id);  //TODO: ACA DEBERIA DE IR NRODOC?
                 $resp = true;
             } else {
-                $this->setmensajeoperacion($base->getError());
+                $this->setmensajeOperacion($base->getError());
             }
         } else {
-            $this->setmensajeoperacion($base->getError());
+            $this->setmensajeOperacion($base->getError());
         }
         return $resp;
     }
@@ -227,10 +229,10 @@ class Persona
             if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
             } else {
-                $this->setmensajeoperacion($base->getError());
+                $this->setmensajeOperacion($base->getError());
             }
         } else {
-            $this->setmensajeoperacion($base->getError());
+            $this->setmensajeOperacion($base->getError());
         }
         return $resp;
     }
@@ -255,14 +257,16 @@ class Persona
             if ($base->Ejecutar($consultaBorra)){
                 $resp = true;
             } else {
-                $this->setmensajeoperacion($base->getError());
+                $this->setmensajeOperacion($base->getError());
             }
         } else {
-            $this->setmensajeoperacion($base->getError());
+            $this->setmensajeOperacion($base->getError());
         }
         return $resp;
     }
 
+
+    //! ******** __toString ******** 
     public function __toString()
     {
         return "\nNombre: " . $this->getNombre() . "\n Apellido:" . $this->getApellido() . "\n DNI: " . $this->getNrodoc() . "\n" . "Telefono: " . $this->getTelefono();
