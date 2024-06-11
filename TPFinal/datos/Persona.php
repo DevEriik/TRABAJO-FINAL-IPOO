@@ -97,9 +97,10 @@ class Persona
 
 	//! ********* BUSCAR *********
     /**
-     * Recupera los datos de una persona por dni
-     * @param int $dni
-     * @return true en caso de encontrar los datos, false en caso contrario
+     * Recupera los datos de una persona por medio del $dni ingresado como parametro.
+     * Retorna true en caso de encontrar los datos, false en caso contrario.
+     * @param INT $dni
+     * @return BOOLEAN $resp
      */
     public function Buscar($dni)
     {

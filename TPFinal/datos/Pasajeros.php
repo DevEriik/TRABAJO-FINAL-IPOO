@@ -2,20 +2,13 @@
 /*
 TODO: N° de linea aproximado --> Falla que veo --> Linea original para saber cual es si es que no esta en la misma linea
 
-? Lineas 45 y 64 --> Error con getter y setter de mensajeOperacion
+!Liena 103 --> funcion listar --> es "estatic function" o "public static function"??? --> Ver para todas las clases
 
 ? Linea 107 --> No se bien si eso está bien --> @param STRING $condicion
 
 ? Linea 115 --> Esta duda la teniamos que consultar --> $consulta = "select * from pasajero "; //Pusimos select * from pasajero pero no sabemos si es SELECT * FROM pasajero 
 
 ? Linea 138 --> Está para probar supongo, cuando no se necesite mas hay que sacarlo --> //echo $consultaPersonas;
-
-? Lineas 91, 136, 174, 200  --> Comentarios que no estoy 100% seguro de que sea eso lo que hace --> //Si se conecta a la base de datos
-
-? Lineas 94, 139, 177, 203 --> Comentarios que no estoy 100% seguro de que sea eso lo que hace --> //Si se ejecuta la consulta
-
-
-? Linea 215 --> Falta el metodo modificar
 */
 
 //! ******** CREO LA CLASE ******** 
@@ -24,7 +17,8 @@ class Pasajero extends Persona
 
 	//! ******** ATRIBUTOS ******** 
     private $idViaje;
-    
+	private $mensajeoperacion;
+
 
     //!CONSTRUCTOR
     public function __construct()
@@ -90,7 +84,7 @@ class Pasajero extends Persona
 				    $this->setIdViaje($row2['idviaje']);
 					$resp= true;
 				}				
-		 	}else{
+		 	}else{ //Si no se ejecuta la consulta
 		 		$this->setMensajeoperacion($base->getError());
 			}
 
@@ -209,7 +203,6 @@ class Pasajero extends Persona
             $this->setmensajeOperacion($base->getError());
         }
         return $resp;
-
 	}
 
 
