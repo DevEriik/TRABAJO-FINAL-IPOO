@@ -102,10 +102,15 @@ class Empresa
      */
     public function Buscar($idEmpresa)
     {
+        //Inicializo variables
         $base = new BaseDatos();
         $consultaPersona = "Select * from persona where idEmpresa = " . $idEmpresa;
         $resp = false;
+
+        //Si se conecta a la base de datos
         if ($base->Iniciar()) {
+
+            //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaPersona)) {
                 if ($row2 = $base->Registro()) {
                     $this->setIdEmpresa($idEmpresa);
@@ -113,24 +118,28 @@ class Empresa
                     $this->setEDireccion($row2['eDireccion']);
                     $resp = true;
                 }
-            } else {
+
+            }else{ //Si no se ejecuta la consulta
                 $this->setMensajeOperacion($base->getError());
             }
-        } else {
+
+        }else{ //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;
     }
 
 
+    //! ******** LISTAR ******** 
     /**
      * Lista grupo de registros, retorna colección de ellos
      * Retorna array vacio en caso de no encontrar nada.
-     * @param STRING $consulta
+     * @param STRING $condicion
      * @return ARRAY $arregloEmpresa
      */
     public function listar($condicion = "")
     {
+        //Inicializo variables
         $arregloEmpresa = null;
         $base = new BaseDatos();
         $consultaEmpresa = "Select * from empresa ";
@@ -166,6 +175,7 @@ class Empresa
     }
 
 
+    //! ******** INSERTAR ******** 
     /**
      * Inserta datos de una empresa a la base de datos.
      * Retorna true si la inserción fue exitosa, false en caso contrario.
@@ -173,6 +183,7 @@ class Empresa
      */
     public function insertar()
     {
+        //Inicializo variables
         $base = new BaseDatos();
         $resp = false;
         $consultaInsertar = "INSERT INTO empresa(idEmpresa, eNombre, eDireccion)
