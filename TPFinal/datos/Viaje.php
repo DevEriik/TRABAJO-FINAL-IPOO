@@ -221,7 +221,7 @@ class Viaje
      * @param STRING $condicion
      * @return ARRAY $arregloEmpresa
      */
-    public static function listar($condicion = ""){
+    public function listar($condicion = ""){
         //Inicializo variables
 	    $arregloViaje = null;
 		$base = new BaseDatos();

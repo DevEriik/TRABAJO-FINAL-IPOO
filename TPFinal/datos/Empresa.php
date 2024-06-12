@@ -104,7 +104,7 @@ class Empresa
     {
         //Inicializo variables
         $base = new BaseDatos();
-        $consultaPersona = "Select * from persona where idEmpresa = " . $idEmpresa;
+        $consultaPersona = "Select * from empresa where idempresa = " . $idEmpresa;
         $resp = false;
 
         //Si se conecta a la base de datos
@@ -114,8 +114,8 @@ class Empresa
             if ($base->Ejecutar($consultaPersona)) {
                 if ($row2 = $base->Registro()) {
                     $this->setIdEmpresa($idEmpresa);
-                    $this->setENombre($row2['eNombre']);
-                    $this->setEDireccion($row2['eDireccion']);
+                    $this->setENombre($row2['enombre']);
+                    $this->setEDireccion($row2['edireccion']);
                     $resp = true;
                 }
 
@@ -142,7 +142,7 @@ class Empresa
         //Inicializo variables
         $arregloEmpresa = null;
         $base = new BaseDatos();
-        $consultaEmpresa = "Select * from empresa ";
+        $consultaEmpresa = "SELECT * FROM empresa ";
         if ($condicion != "") {
             $consultaEmpresa = $consultaEmpresa . ' where ' . $condicion;
         }
@@ -155,9 +155,9 @@ class Empresa
             if ($base->Ejecutar($consultaEmpresa)) {
                 $arregloEmpresa = array();
                 while ($row2 = $base->Registro()) {
-                    $IdEmpresa = $row2['idEmpresa'];
-                    $ENombre = $row2['eNombre'];
-                    $EDireccion = $row2['eDireccion'];
+                    $IdEmpresa = $row2['idempresa'];
+                    $ENombre = $row2['enombre'];
+                    $EDireccion = $row2['edireccion'];
 
                     $empre = new Empresa();
                     $empre->cargar($IdEmpresa, $ENombre, $EDireccion);
@@ -186,8 +186,8 @@ class Empresa
         //Inicializo variables
         $base = new BaseDatos();
         $resp = false;
-        $consultaInsertar = "INSERT INTO empresa(idEmpresa, eNombre, eDireccion)
-				VALUES (" . $this->getIdEmpresa() . ",'" . $this->getENombre() . "' . '" . $this->getEDireccion() . "')";
+        $consultaInsertar = "INSERT INTO empresa( enombre, edireccion)
+				VALUES ('" . $this->getENombre() . "','" . $this->getEDireccion() . "')";
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()) {
@@ -220,7 +220,7 @@ class Empresa
         $resp = false;
         $base = new BaseDatos();
 
-        $consultaModifica = "UPDATE empresa SET idEmpresa = '" . $this->getIdEmpresa() . "', eNombre = '" . $this->getENombre() . "', eDireccion = " . $this->getEDireccion() . " WHERE idEmpresa = " . $this->getIdEmpresa();
+        $consultaModifica = "UPDATE empresa SET idempresa = '" . $this->getIdEmpresa() . "', enombre = '" . $this->getENombre() . "', edireccion = " . $this->getEDireccion() . " WHERE idempresa = " . $this->getIdEmpresa();
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()){

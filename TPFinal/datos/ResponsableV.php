@@ -101,7 +101,7 @@ class ResponsableV extends Persona
 	 * @param STRING $condicion
 	 * @return ARRAY $arreglo 
 	 */		
-	public static function listar($condicion = ""){
+	public function listar($condicion = ""){
 		//Inicializo variables
 		$arreglo = null;
 		$base = new BaseDatos();
@@ -114,7 +114,7 @@ class ResponsableV extends Persona
 		}
 
 		//
-		$consulta .= " order by apellido ";
+		$consulta .= " order by numeroEmpleado "; //! COMO LO ORDENAMOS? 
 
 		//Si se conecta a la base de datos
 		if($base->Iniciar()){
@@ -155,8 +155,8 @@ class ResponsableV extends Persona
 		
 		//
 		if(parent::insertar()){
-		    $consultaInsertar="INSERT INTO responsable (rnumeroEmpleado, rnumeroLicencia)
-				VALUES (".$this->getRnumeroEmpleado().", ".$this->getRnumeroLicencia().")";
+		    $consultaInsertar="INSERT INTO responsable (numerolicencia, nrodocumento)
+				VALUES ('".$this->getRnumeroLicencia()."','".$this->getNrodoc()."')";
 
 		//Si se conecta a la base de datos
         if($base->Iniciar()){

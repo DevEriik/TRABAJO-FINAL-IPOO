@@ -196,14 +196,14 @@ class Persona
         //Inicializo variables
         $base = new BaseDatos();
         $resp = false;
-        $consultaInsertar = "INSERT INTO persona(nrodoc, apellido, nombre, telefono)
-				VALUES (" . $this->getNrodoc() . ",'" . $this->getApellido() . "' . '" . $this->getNombre() . "'," . $this->getTelefono() . "')";
+        $consultaInsertar = "INSERT INTO persona(nrodocumento, nombre, apellido, telefono)
+				VALUES ('" . $this->getNrodoc() . "','" . $this->getNombre() . "','" . $this->getApellido() . "','" . $this->getTelefono() . "')";
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()) {
-
-            if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
-                $this->setIdPersona($id);  //TODO: ACA DEBERIA DE IR NRODOC?
+            if ($nroDoc = $base->devuelveIDInsercion($consultaInsertar)) {
+                echo "ENTRO A AL IF\n";
+                $this->getNrodoc($nroDoc);  //TODO: ACA DEBERIA DE IR NRODOC?
                 $resp = true;
             } else {
                 $this->setmensajeOperacion($base->getError());

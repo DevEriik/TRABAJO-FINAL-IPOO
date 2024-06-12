@@ -322,14 +322,17 @@ function insertarViaje($objEmpresa, $objViaje, $objResponsable)
      */
     function insertarResponsable($objResponsable)
     {
+        //!DEBEMOS CARGAR UNA PERSONA ANTES DE CARGAR UN RESPONSABLE.
+
         echo "Nombre del responsable: ";
         $nombre = trim(fgets(STDIN));
         echo "Apellido del responsable: ";
         $apellido = trim(fgets(STDIN));
         echo "Número de licencia: ";
         $nroLicencia = trim(fgets(STDIN));
+        
 
-        $objResponsable->cargar("", $nroLicencia, $nombre, $apellido);
+        $objResponsable->cargar("", $nroLicencia, $nombre, $apellido); //? No sabemos si estos atributos estan bien. 
         if ($objResponsable->insertar()) {
             echo "Responsable insertadado correctamente";
         } else {
@@ -541,9 +544,130 @@ function eliminarPasajero($objPasajero)
 
 $objEmpresa = new Empresa;
 $objViaje = new Viaje;
+$objPersona = new Persona;
 $objResponsable = new ResponsableV;
 $objPasajero = new Pasajero;
 echo "**************************";
 echo "\nPROGRAMA INICIADO\n";
 echo "**************************\n";
 $opcionMenu = menuDeOpciones();
+while ($opcionMenu != 5) {
+    switch ($opcionMenu) {
+        case 1:
+            //Opciones de empresa
+            $opcionEmpresa = menuDeEmpresa();
+            while ($opcionEmpresa != 5) {
+                switch ($opcionEmpresa) {
+                    case 1:
+                        //Insertar una empresa
+                        insertarEmpresa($objEmpresa);
+                        break;
+                    case 2:
+                        //Modificar una empresa
+                        modificarEmpresa($objEmpresa);
+                        break;
+                    case 3:
+                        //Mostrar empresas
+                        if (empty($objEmpresa->listar())) {
+                            echo "Actualmente no hay empresas cargadas en la BD\n";
+                        } else {
+                            muestraElementos($objEmpresa, "");
+                        }
+                        break;
+                    case 4:
+                        //Eliminar una empresa
+                        eliminarEmpresa($objEmpresa, $objViaje);
+                        break;
+                }
+                $opcionEmpresa = menuDeEmpresa();
+            }
+            break;
+        case 2:
+            //Opciones de viajes
+            $opcionViajes = menuDeViaje();
+            while ($opcionViajes != 5) {
+                switch ($opcionViajes) {
+                    case 1:
+                        //Insertar un viaje
+                        insertarViaje($objEmpresa, $objViaje, $objResponsable);
+                        break;
+                    case 2:
+                        //Modificar un viaje
+                        modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero);
+                        break;
+                    case 3:
+                        //Mostrar viajes
+                        if (empty($objViaje->listar())) {
+                            echo "Actualmente no hay viajes cargados en la BD\n";
+                        } else {
+                            muestraElementos($objViaje, "");
+                        }
+                        break;
+                    case 4:
+                        //Eliminar un viaje
+                        eliminarViaje($objViaje);
+                        break;
+                }
+                $opcionViajes = menuDeViaje();
+            }
+            break;
+        case 3:
+            //Opciones de responsable
+            $opcionResponsable = menuDeResponsable();
+            while ($opcionResponsable != 5) {
+                switch ($opcionResponsable) {
+                    case 1:
+                        //Insertar un responsable;
+                        insertarResponsable($objResponsable);
+                        break;
+                    case 2:
+                        //Modificar un responsable
+                        modificarResponsable($objResponsable);
+                        break;
+                    case 3:
+                        //Mostrar responsables
+                        if (empty($objResponsable->listar())) {
+                            echo "Actualmente no hay responsables cargados en la BD\n";
+                        } else {
+                            muestraElementos($objResponsable, "");
+                        }
+                        break;
+                    case 4:
+                        //Eliminar un responsable
+                        eliminarResponsable($objResponsable);
+                        break;
+                }
+                $opcionResponsable = menuDeResponsable();
+            }
+            break;
+        case 4:
+            //Opciones de pasajero
+            $opcionPasajero = menuDePasajero();
+            while ($opcionPasajero != 5) {
+                switch ($opcionPasajero) {
+                    case 1:
+                        //Insertar un pasajero
+                        insertarPasajero($objViaje, $objPasajero);
+                        break;
+                    case 2:
+                        //Modificar un pasajero
+                        modificarPasajero($objViaje, $objPasajero);
+                        break;
+                    case 3:
+                        //Mostrar pasajeros
+                        if (empty($objPasajero->listar())) {
+                            echo "Actualmente no hay pasajeros cargados en la BD\n";
+                        } else {
+                            muestraElementos($objPasajero, "");
+                        }
+                        break;
+                    case 4:
+                        //Eliminar un pasajero
+                        eliminarPasajero($objPasajero);
+                        break;
+                }
+                $opcionPasajero = menuDePasajero();
+            }
+    }
+    $opcionMenu = menuDeOpciones();
+}

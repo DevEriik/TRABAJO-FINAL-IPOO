@@ -14,6 +14,7 @@ class Pasajero extends Persona
 {
 
 	//! ******** ATRIBUTOS ******** 
+	private $idPasajero;
     private $idViaje;
 	private $mensajeoperacion;
 
@@ -22,12 +23,14 @@ class Pasajero extends Persona
     public function __construct()
     {
         parent::__construct();
+		$this->idPasajero =    0;
         $this->idViaje =    0;
     }
 
 	//! ******** Creo la funcion cargar ******** 
-    public function cargar($NroD, $Nom, $Ape, $telefono, $idViaje = null){	
+    public function cargar($NroD, $Nom, $Ape, $telefono, $idViaje = null,$idPasajero = null){	
 		parent::cargar($NroD, $Nom, $Ape, $telefono);
+		$this->setIdPasajero($idPasajero);
 		$this->setIdViaje($idViaje);
     }
 
@@ -41,12 +44,20 @@ class Pasajero extends Persona
     {
         return $this->mensajeoperacion;
     }
+	public function getIPasajero()
+    {
+        return $this->idPasajero;
+    }
 
     //! **********SETTERS**********
     public function setIdViaje($id)
     {
         $this->idViaje=$id;
     }
+
+	public function setIdPasajero($id){
+		$this->idPasajero=$id;
+	}
 
 
     public function setMensajeoperacion($mensajeoperacion){
@@ -79,6 +90,7 @@ class Pasajero extends Persona
 		    if($base->Ejecutar($consulta)){
 				if($row2=$base->Registro()){	
 				    parent::Buscar($dni);
+					
 				    $this->setIdViaje($row2['idviaje']);
 					$resp= true;
 				}				
@@ -100,7 +112,7 @@ class Pasajero extends Persona
 	 * @param STRING $condicion
 	 * @return ARRAY $arreglo 
 	 */		
-	public static function listar($condicion = ""){
+	public function listar($condicion = ""){
 		//Inicializo variables
 		$arreglo = null;
 		$base = new BaseDatos();
