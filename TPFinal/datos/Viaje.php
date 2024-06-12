@@ -225,8 +225,8 @@ class Viaje
         //Inicializo variables
 	    $arregloViaje = null;
 		$base = new BaseDatos();
-		$consultaViaje = "Select * from viaje ";
-		if ($condicion! = ""){
+		$consultaViaje = "SELECT * FROM viaje ";
+		if ($condicion != ""){
 		    $consultaViaje=$consultaViaje.' where '.$condicion;
 		}
 		$consultaViaje .= " order by idviaje ";

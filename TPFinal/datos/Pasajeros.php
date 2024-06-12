@@ -6,8 +6,6 @@ TODO: N° de linea aproximado --> Falla que veo --> Linea original para saber cu
 
 ? Linea 107 --> No se bien si eso está bien --> @param STRING $condicion
 
-? Linea 115 --> Esta duda la teniamos que consultar --> $consulta = "select * from pasajero "; //Pusimos select * from pasajero pero no sabemos si es SELECT * FROM pasajero 
-
 ? Linea 138 --> Está para probar supongo, cuando no se necesite mas hay que sacarlo --> //echo $consultaPersonas;
 */
 
@@ -73,7 +71,7 @@ class Pasajero extends Persona
 	 */		
     public function Buscar($dni){
 		$base = new BaseDatos();
-		$consulta = "Select * from pasajero where nrodoc = ".$dni;
+		$consulta = "SELECT * from pasajero where nrodoc = ".$dni;
 		$resp = false;
 
 		//Si se conecta a la base de datos
@@ -109,9 +107,6 @@ class Pasajero extends Persona
 
 		//Asigno valor a la consulta y la trabajo con la condicional if
 		$consulta = "select * from pasajero ";
-		/*
-		TODO: Pusimos select * from pasajero pero no sabemos si es SELECT * FROM pasajero 
-		*/
 
 		if ($condicion != ""){
 			$consulta = $consulta.' where '.$condicion;

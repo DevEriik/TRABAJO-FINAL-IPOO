@@ -107,7 +107,7 @@ class ResponsableV extends Persona
 		$base = new BaseDatos();
 
 		//Asigno valor a la consulta y la trabajo con la condicional if
-		$consulta = "select * from responsable ";		//! Pusimos select * from pasajero pero no sabemos si es SELECT * FROM pasajero 
+		$consulta = "SELECT * FROM responsable ";		//! Pusimos select * from pasajero pero no sabemos si es SELECT * FROM pasajero 
 
 		if ($condicion != ""){
 			$consulta = $consulta.' where '.$condicion;
