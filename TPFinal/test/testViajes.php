@@ -331,7 +331,6 @@ function insertarViaje($objEmpresa, $objViaje, $objResponsable)
         echo "Número de licencia: ";
         $nroLicencia = trim(fgets(STDIN));
         
-
         $objResponsable->cargar("", $nroLicencia, $nombre, $apellido); //? No sabemos si estos atributos estan bien. 
         if ($objResponsable->insertar()) {
             echo "Responsable insertadado correctamente";
@@ -618,7 +617,7 @@ while ($opcionMenu != 5) {
                 switch ($opcionResponsable) {
                     case 1:
                         //Insertar un responsable;
-                        insertarResponsable($objResponsable);
+                        insertarResponsable($objPersona ,$objResponsable);
                         break;
                     case 2:
                         //Modificar un responsable
