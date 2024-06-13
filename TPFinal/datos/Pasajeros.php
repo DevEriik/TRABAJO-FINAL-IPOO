@@ -125,7 +125,7 @@ class Pasajero extends Persona
 		}
 
 		//
-		$consulta .= " order by apellido ";
+		$consulta .= " order by idpasajero ";
 
 		//echo $consultaPersonas;
 		//Si se conecta a la base de datos

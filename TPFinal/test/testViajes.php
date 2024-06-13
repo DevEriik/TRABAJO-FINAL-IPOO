@@ -168,8 +168,8 @@ function eliminarEmpresa($objEmpresa, $objViaje)
             echo " ¡Alerta! :: Se borrarán todos los viajes vinculados a esta empresa\n ¿Continuar? (s/n): ";
             $rta = trim(fgets(STDIN));
             if ($rta == "s") {
-                $objEmpresa->eliminarEmpresa();
-                $objViaje->eliminarViaje();
+                $objEmpresa->borrarEmpresa();
+                $objViaje->borrarViaje();
                 echo "Empresa eliminada correctamente. ";
             } else {
                 echo "Operación cancelada. ";

@@ -118,12 +118,10 @@ class Empresa
                     $this->setEDireccion($row2['edireccion']);
                     $resp = true;
                 }
-
-            }else{ //Si no se ejecuta la consulta
+            } else { //Si no se ejecuta la consulta
                 $this->setMensajeOperacion($base->getError());
             }
-
-        }else{ //Si no se conecta a la base de datos
+        } else { //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;
@@ -147,9 +145,9 @@ class Empresa
             $consultaEmpresa = $consultaEmpresa . ' where ' . $condicion;
         }
         $consultaEmpresa .= " order by enombre ";
-        
+
         //Si se conecta a la base de datos
-        if ($base->Iniciar()){
+        if ($base->Iniciar()) {
 
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaEmpresa)) {
@@ -163,12 +161,10 @@ class Empresa
                     $empre->cargar($IdEmpresa, $ENombre, $EDireccion);
                     array_push($arregloEmpresa, $empre);
                 }
-
-            }else{ //Si no se ejecuta la consulta 
+            } else { //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-
-        }else{ //Si no se conecta a la base de datos
+        } else { //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $arregloEmpresa;
@@ -196,19 +192,17 @@ class Empresa
             if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
                 $this->setIdEmpresa($id);
                 $resp = true;
-
-            }else{ //Si no se ejecuta la consulta 
+            } else { //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-
-        }else{ //Si no se conecta a la base de datos
+        } else { //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;
     }
 
 
-	//! ******** MODIFICAR ******** 
+    //! ******** MODIFICAR ******** 
     /**
      * Modifica datos de algún registro
      * Retorna true en caso de que la actualización haya sido exitosa, false en caso contrario
@@ -220,32 +214,30 @@ class Empresa
         $resp = false;
         $base = new BaseDatos();
 
-        $consultaModifica = "UPDATE empresa SET idempresa = '" . $this->getIdEmpresa() . "', enombre = '" . $this->getENombre() . "', edireccion = " . $this->getEDireccion() . " WHERE idempresa = " . $this->getIdEmpresa();
+        $consultaModifica = "UPDATE empresa SET enombre = '" . $this->getENombre() . "', edireccion = '" . $this->getEDireccion() . "' WHERE idempresa = " . $this->getIdEmpresa();
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()){
+        if ($base->Iniciar()) {
 
             //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaModifica)){
+            if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
-
-            }else{ //Si no se ejecuta la consulta 
+            } else { //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-
-        }else{ //Si no se conecta a la base de datos
+        } else { //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;
     }
 
 
-	//! ******** ELIMINAR ******** 
+    //! ******** ELIMINAR ******** 
     /**
-	 * Elimina el registro de una empresa de la coleccion de empresas.
-	 * Retorna true si pudo eliminarlo y false en caso contrario.
-	 * @return BOOLEAN $resp 
-	 */		
+     * Elimina el registro de una empresa de la coleccion de empresas.
+     * Retorna true si pudo eliminarlo y false en caso contrario.
+     * @return BOOLEAN $resp 
+     */
     public function eliminar()
     {
         //Inicializo variables
@@ -253,20 +245,35 @@ class Empresa
         $resp = false;
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()){
+        if ($base->Iniciar()) {
             $consultaBorra = "DELETE FROM empresa WHERE idEmpresa = " . $this->getIdEmpresa();
 
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaBorra)) {
                 $resp = true;
-
-            }else{ //Si no se ejecuta la consulta 
+            } else { //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-
-        }else{ //Si no se conecta a la base de datos
+        } else { //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;
+    }
+
+
+    /**
+     * Elimina viajes relacionados a la empresa seleccionada y despues se elimina asi misma 
+     */
+
+    public function borrarEmpresa()
+    {
+        $viajes = new Viaje;
+        $condicion = "idempresa = " . $this->getIdEmpresa();
+        $colViajes = $viajes->listar($condicion);
+
+        foreach ($colViajes as $viaje) {
+            $viaje->eliminar();
+        }
+        $this->eliminar();
     }
 }
