@@ -370,11 +370,11 @@ function modificarResponsable($objResponsable)
             $nombre = trim(fgets(STDIN));
             echo "Nuevo apellido del responsable: ";
             $apellido = trim(fgets(STDIN));
-            echo "Nuevo n° del responsable: ";
+            echo "Nuevo N° del responsable: ";
             $nroLicencia = trim(fgets(STDIN));
-            echo "Nuevo nº de telefono";
+            echo "Nuevo Nº de telefono";
             $telefono = trim(fgets(STDIN));
-            echo "Ingrese nro doc";
+            echo "Ingrese el N° de documento: ";
             $nroDoc =  trim(fgets(STDIN));
            	
 

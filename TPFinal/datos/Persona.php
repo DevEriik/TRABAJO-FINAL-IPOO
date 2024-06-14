@@ -123,10 +123,8 @@ class Persona
 
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaPersona)){
-                echo "ENTRO AL EJECUTAR DEL PADRE\n";
                 //
                 if ($row2 = $base->Registro()) {
-                    echo "ENTRO AL REGISTRO DEL PADRE\n";
                     $this->setIdPersona($idpersona);
                     $this->setNrodoc($row2['nrodocumento']);
                     $this->setNombre($row2['nombre']);

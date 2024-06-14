@@ -109,7 +109,6 @@ class Empresa
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()) {
-
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaPersona)) {
                 if ($row2 = $base->Registro()) {
