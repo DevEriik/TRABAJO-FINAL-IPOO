@@ -112,10 +112,10 @@ class Persona
      * @param INT $dni
      * @return BOOLEAN $resp
      */
-    public function Buscar($dni)
+    public function Buscar($idpersona)
     {
         $base = new BaseDatos();
-        $consultaPersona = "Select * from persona where nrodocumento = " . $dni;
+        $consultaPersona = "Select * from persona where idpersona = " . $idpersona;
         $resp = false;
 
         //Si se conecta a la base de datos
@@ -123,11 +123,12 @@ class Persona
 
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaPersona)){
-
+                echo "ENTRO AL EJECUTAR DEL PADRE\n";
                 //
                 if ($row2 = $base->Registro()) {
-                    $this->setIdPersona($row2['idpersona']);
-                    $this->setNrodoc($dni);
+                    echo "ENTRO AL REGISTRO DEL PADRE\n";
+                    $this->setIdPersona($idpersona);
+                    $this->setNrodoc($row2['nrodocumento']);
                     $this->setNombre($row2['nombre']);
                     $this->setApellido($row2['apellido']);
                     $this->setTelefono($row2['telefono']); //!VER COMO SE AGREGO EN LA BASE DE DATOS EL NOMBRE DE LA COLUMNA.
@@ -235,7 +236,7 @@ class Persona
     {
         $resp = false;
         $base = new BaseDatos();  //!NO SABEMOS PORQUE NOS TIRA ERROR ACA EN LA CONSULTA
-        $consultaModifica = "UPDATE persona SET nombre='" . $this->getNombre() . "', nrodocumento='" . $this->getNrodoc() . "', apellido='" . $this->getApellido() . "',telefono='" . $this->getTelefono() . "' WHERE idpersona = " . $this->getIdPersona();
+        $consultaModifica = "UPDATE persona SET nrodocumento='" . $this->getNrodoc() . "', nombre='" . $this->getNombre() . "', apellido='" . $this->getApellido() . "',telefono='" . $this->getTelefono() . "' WHERE idpersona = " . $this->getIdPersona();
 
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
@@ -282,6 +283,7 @@ class Persona
     public function __toString()
     {
         return "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n" .
+        "ID: " . $this->getIdPersona() . "\n" .
         "Nombre: " . $this->getNombre() . "\n" .
         "Apellido:" . $this->getApellido() . "\n" .
         "DNI: " . $this->getNrodoc() . "\n" .

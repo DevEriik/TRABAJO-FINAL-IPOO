@@ -18,9 +18,10 @@ class ResponsableV extends Persona
 	}
 
 	//! ******** Creo la funcion cargar ******** 
-	public function cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono, $rnumeroEmpleado = null, $rnumeroLicencia = null)
+	public function cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono,$rnumeroEmpleado = null, $rnumeroLicencia=null)
 	{
 		parent::cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono);
+		$this->setRnumeroEmpleado($rnumeroEmpleado);
 		$this->setRnumeroLicencia($rnumeroLicencia);
 	}
 
@@ -65,23 +66,26 @@ class ResponsableV extends Persona
 
 	//! ********* BUSCAR *********
 	/**
-	 * Recupera los datos de un Responsable por medio de su numero de empleado que se ingresa como parametro.
+	 * Recupera los datos de un Responsable por medio de su idpersona que se ingresa como parametro.
 	 * Retorna true en caso de encontrar los datos, false en caso contrario.
 	 * @param INT $nroEmpleado
 	 * @return BOOLEAN $resp 
 	 */
-	public function Buscar($nroEmpleado)
+	public function Buscar($idpersona)
 	{
 		$base = new BaseDatos();
-		$consulta = "Select * from responsable where numeroEmpleado = " . $nroEmpleado;
+		$consulta = "Select * from responsable where idpersona = " . $idpersona;
 		$resp = false;
 
 		//Si se conecta a la base de datos
 		if ($base->Iniciar()) {
 			if ($base->Ejecutar($consulta)) {
-				if ($row2 = $base->Registro()) {
-					parent::Buscar($nroEmpleado);
-					parent::setNrodoc($row2['numeroEmpleado']);
+				echo "ENTRO AL EJECUTAR\n";
+				if ($row2 = $base->Registro()) { //!NO ESTA ENTRADO A ESTE IF 
+					echo "ENTRO AL REGISTRO\n";
+					parent::Buscar($idpersona);
+					$this->setRnumeroEmpleado($row2['numeroEmpleado']);
+					$this->setRnumeroLicencia($row2['numerolicencia']);
 					$resp = true;
 				}
 			} else {
@@ -155,7 +159,7 @@ class ResponsableV extends Persona
 		//
 		if (parent::insertar()) {
 			$consultaInsertar = "INSERT INTO responsable (idpersona,numerolicencia)
-				VALUES ( '" . parent::getIdPersona() . "','" . $this->getRnumeroLicencia() . "')";
+				VALUES ('" . parent::getIdPersona() . "','" . $this->getRnumeroLicencia() . "')";
 			//Si se conecta a la base de datos
 			if ($base->Iniciar()) {
 
@@ -184,7 +188,7 @@ class ResponsableV extends Persona
 		$resp = false;
 		$base = new BaseDatos();
 		if (parent::modificar()) {
-			$consultaModifica = "UPDATE responsable SET nrodocumento = '" . parent::getNrodoc() . "', nombre = '" . parent::getNombre() . "',apellido = '" . parent::getApellido() . "', telefono = '" . parent::getTelefono() . "', numerolicencia = '" . $this->getRnumeroLicencia() . "' WHERE numeroEmpleado = " . $this->getRnumeroEmpleado();
+			$consultaModifica = "UPDATE responsable SET numerolicencia ='" . $this->getRnumeroLicencia() . "' WHERE numeroEmpleado = " . $this->getRnumeroEmpleado();
 
 			//Si se conecta a la base de datos 
 			if ($base->Iniciar()) {

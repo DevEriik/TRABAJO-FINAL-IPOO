@@ -334,7 +334,7 @@ function insertarResponsable($objResponsable)
     echo "Número de licencia: ";
     $nroLicencia = trim(fgets(STDIN));
 
-    $objResponsable->cargar($nrodocumento, $nombre, $apellido, $telefono, $nroLicencia);
+    $objResponsable->cargar("", $nrodocumento,  $nombre, $apellido, $telefono, "" ,$nroLicencia);
     
 
     if ($objResponsable->insertar()) {
@@ -378,7 +378,7 @@ function modificarResponsable($objResponsable)
             $nroDoc =  trim(fgets(STDIN));
            	
 
-            $objResponsable->cargar($idEmpleado,$nroDoc, $nombre , $apellido,$telefono,$nroLicencia);
+            $objResponsable->cargar("", $nroDoc,  $nombre, $apellido, $telefono, "" ,$nroLicencia);
             $objResponsable->modificar();
             echo "Responsable modificado correctamente. ";
         } else {
@@ -549,6 +549,8 @@ function eliminarPasajero($objPasajero)
         echo "Sin pasajeros cargados en la BD. \n";
     }
 }
+
+
 
 //! ********************* MENU ************************
 
