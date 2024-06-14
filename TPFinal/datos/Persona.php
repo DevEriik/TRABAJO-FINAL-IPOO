@@ -235,7 +235,7 @@ class Persona
         $resp = false;
         $base = new BaseDatos();  //!NO SABEMOS PORQUE NOS TIRA ERROR ACA EN LA CONSULTA
         $consultaModifica = "UPDATE persona SET nrodocumento='" . $this->getNrodoc() . "', nombre='" . $this->getNombre() . "', apellido='" . $this->getApellido() . "',telefono='" . $this->getTelefono() . "' WHERE idpersona = " . $this->getIdPersona();
-
+        // echo $consultaModifica . "\n";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
@@ -262,7 +262,7 @@ class Persona
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()){
-            $consultaBorra = "DELETE FROM persona WHERE nrodocumento=" . $this->getNrodoc();
+            $consultaBorra = "DELETE FROM persona WHERE idpersona=" . $this->getIdPersona();
 
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaBorra)){

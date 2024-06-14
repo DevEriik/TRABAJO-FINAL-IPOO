@@ -209,7 +209,7 @@ function insertarViaje($objEmpresa, $objViaje, $objResponsable)
                 $importe = trim(fgets(STDIN));
                 echo "\nResponsables disponibles: ";
                 muestraElementos($objResponsable, "");
-                echo "\nSeleccione número de empleado: ";
+                echo "\nSeleccione ID del empleado: ";
                 $id = trim(fgets(STDIN));
 
                 //Verifico si existe el responsable elegido
@@ -261,15 +261,16 @@ function modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero)
                 //Pido datos del responsable y verifico si existe
                 echo "Responsables cargados a la BD: ";
                 muestraElementos($objResponsable, "");
-                echo "Número de empleado: ";
-                $idEmpleado = trim(fgets(STDIN));
+                echo "\nIngrese el ID del empleado que va a dirigir el viaje: "; //? es ID persona
+                 
+                $idEmpleado = trim(fgets(STDIN)) . "\n";
 
                 //Si existe responsable, verifico que exista la empresa
                 if ($objResponsable->buscar($idEmpleado)) {
                     echo "Empresas cargadas a la BD: ";
                     muestraElementos($objEmpresa, "");
 
-                    echo "Seleccione ID empresa para mudar el viaje: ";
+                    echo "\nSeleccione ID empresa para mudar el viaje: ";
                     $idEmpresa = trim(fgets(STDIN));
 
                     //Si la empresa existe, pido importe nuevo y modifico el viaje
@@ -278,12 +279,12 @@ function modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero)
                         $importe = trim(fgets(STDIN));
                         $objViaje->cargar($idViaje, $destino, $cantMax, $objEmpresa, $objResponsable, $importe);
                         $objViaje->modificar();
-                        echo "Viaje modificado correctamente";
+                        echo "Viaje modificado correctamente\n";
                     } else {
-                        "ID de empresa inválido/innexistente";
+                        "ID de empresa inválido/innexistente\n";
                     }
                 } else {
-                    echo "ID responsable inválido/innexistente";
+                    echo "ID responsable inválido/innexistente\n";
                 }
             }
         }
@@ -306,7 +307,7 @@ function eliminarViaje($objViaje)
         $idViaje = trim(fgets(STDIN));
 
         if ($objViaje->buscar($idViaje)) {
-            $objViaje->eliminarViaje();
+            $objViaje->borrarViaje();
             echo "Viaje eliminado correctamente. ";
         } else {
             echo "ID de viaje inválido/innexistente. ";
@@ -366,6 +367,7 @@ function modificarResponsable($objResponsable)
 
         //Verifico que exista algún empleado con ese ID
         if ($objResponsable->buscar($idEmpleado)) {
+            echo $objResponsable . "\n";
             echo "Nuevo nombre del responsable: ";
             $nombre = trim(fgets(STDIN));
             echo "Nuevo apellido del responsable: ";
@@ -378,7 +380,7 @@ function modificarResponsable($objResponsable)
             $nroDoc =  trim(fgets(STDIN));
            	
 
-            $objResponsable->cargar("", $nroDoc,  $nombre, $apellido, $telefono, "" ,$nroLicencia);
+            $objResponsable->cargar($objResponsable->getIdPersona(), $nroDoc,  $nombre, $apellido, $telefono, $objResponsable->getRnumeroEmpleado() ,$nroLicencia);
             $objResponsable->modificar();
             echo "Responsable modificado correctamente. ";
         } else {
@@ -390,7 +392,7 @@ function modificarResponsable($objResponsable)
 /**
  * Elimina un Responsable.
  */
-function eliminarResponsable($objResponsable)
+function eliminarResponsable($objResponsable, $objPasajero)
 {
     $colResponsable = $objResponsable->listar();
     if (!empty($colResponsable)) {
@@ -404,7 +406,7 @@ function eliminarResponsable($objResponsable)
             echo " ¡Alerta! :: Se borrarán los viajes vinculados a este responsable\n ¿Continuar? (s/n): ";
             $rta = trim(fgets(STDIN));
             if ($rta == "s") {
-                $objResponsable->eliminar();
+                $objResponsable->eliminar(); //! NO NOS DEJA ELIMINAR EL RESPONSABLE CUANDO UN VIAJE TIENE PASAJEROS.
                 echo "Responsable eliminado correctamente. \n";
             }
         } else {
@@ -418,8 +420,10 @@ function eliminarResponsable($objResponsable)
 /**
  * Inserta un pasajero a la BD
  */
-function insertarPasajero($objViaje, $objPasajero)
+function insertarPasajero()
 {
+    $objPasajero = new Pasajero();
+    $objViaje = new Viaje();
     $colViajes = $objViaje->listar();
     if (!empty($colViajes)) {
         echo "Viajes disponibles: ";
@@ -431,7 +435,8 @@ function insertarPasajero($objViaje, $objPasajero)
         //Compruebo si este viaje existe
         if ($objViaje->buscar($idViaje)) {
             $condicion = "idviaje= " . $idViaje;
-            $colPasajeros = $objPasajero->listar($condicion);
+            // $colPasajeros = $objPasajero->listar($condicion);
+            $colPasajeros = $objViaje->getcolPasajeros();
             $cantActual = count($colPasajeros);
             $max = $objViaje->getvcantmaxpasajeros();
             $asientosDisponibles = $max - $cantActual;
@@ -452,7 +457,7 @@ function insertarPasajero($objViaje, $objPasajero)
                     echo "Ingrese el telefono del pasajero: ";
                     $telefono = trim(fgets(STDIN));
                     $pasajero = new Pasajero;
-                    $pasajero->cargar($dni, $nombre, $apellido, $telefono, $idViaje);
+                    $pasajero->cargar($pasajero->getIdPersona(),$dni, $nombre, $apellido, $telefono, $objViaje, $pasajero->getIdPasajero());
                     $pasajero->insertar();
                     echo "Pasajero insertado correctamente. \n";
                 }
@@ -536,14 +541,14 @@ function eliminarPasajero($objPasajero)
         echo "Pasajeros disponibles: ";
         muestraElementos($objPasajero, "");
 
-        echo "\nDNI del pasajero a eliminar: ";
+        echo "\nID del pasajero a eliminar: ";
         $id = trim(fgets(STDIN));
 
         if ($objPasajero->buscar($id)) {
             $objPasajero->eliminar();
-            echo "Pasajero eliminado correctamente. ";
+            echo "Pasajero eliminado correctamente. \n";
         } else {
-            echo "DNI de pasajero inválido/innexistente. ";
+            echo "DNI de pasajero inválido/innexistente. \n";
         }
     } else {
         echo "Sin pasajeros cargados en la BD. \n";
@@ -634,6 +639,7 @@ while ($opcionMenu != 5) {
                         break;
                     case 2:
                         //Modificar un responsable
+                        // echo $objResponsable . "\n";
                         modificarResponsable($objResponsable);
                         break;
                     case 3:
@@ -646,7 +652,7 @@ while ($opcionMenu != 5) {
                         break;
                     case 4:
                         //Eliminar un responsable
-                        eliminarResponsable($objResponsable);
+                        eliminarResponsable($objResponsable, $objPasajero);
                         break;
                 }
                 $opcionResponsable = menuDeResponsable();

@@ -20,7 +20,7 @@ class ResponsableV extends Persona
 	//! ******** Creo la funcion cargar ******** 
 	public function cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono,$rnumeroEmpleado = null, $rnumeroLicencia=null)
 	{
-		parent::cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono);
+		parent::cargar($idPerso, $NroD, $Nom, $Ape, $telefono);
 		$this->setRnumeroEmpleado($rnumeroEmpleado);
 		$this->setRnumeroLicencia($rnumeroLicencia);
 	}
@@ -187,8 +187,8 @@ class ResponsableV extends Persona
 		$resp = false;
 		$base = new BaseDatos();
 		if (parent::modificar()) {
-			$consultaModifica = "UPDATE responsable SET numerolicencia ='" . $this->getRnumeroLicencia() . "' WHERE numeroEmpleado = " . $this->getRnumeroEmpleado();
-
+			$consultaModifica = "UPDATE responsable SET numerolicencia =" . $this->getRnumeroLicencia() . " WHERE numeroEmpleado = " . $this->getRnumeroEmpleado();
+			// echo $consultaModifica . "\n";
 			//Si se conecta a la base de datos 
 			if ($base->Iniciar()) {
 
@@ -220,7 +220,7 @@ class ResponsableV extends Persona
 
 		//Si se conecta a la base de datos
 		if ($base->Iniciar()) {
-			$consultaBorra = "DELETE FROM responsable WHERE numeroEmpleado = " . $this->getRnumeroEmpleado();
+			$consultaBorra = "DELETE FROM responsable WHERE idpersona =" . parent::getIdPersona();
 
 			//Si se ejecuta la consulta
 			if ($base->Ejecutar($consultaBorra)) {
@@ -235,4 +235,5 @@ class ResponsableV extends Persona
 		}
 		return $resp;
 	}
+
 }

@@ -1,5 +1,7 @@
 <?php
-
+/*
+! HACER FUNCION MOSTRAR PASAJERO
+*/
 
 class Viaje
 {
@@ -151,7 +153,7 @@ class Viaje
             "Destino: " . $this->getvdestino() . "\n" .
             "Cant. Max. Pasajeros: " . $this->getvcantmaxpasajeros() . "\n" .
             "ID Empresa: " . $this->getobjIdEmpresa() . "\n" .
-            "ID Empleado: " . $this->getobjResponsableV() . "\n" .
+            "Numero Empleado: " . $this->getobjResponsableV() . "\n" .
             "Importe: " . $this->getvimporte() . "\n" .
             "Pasajeros: " .$this->retornaCadena($this->getcolPasajeros()) . "\n";
     }
@@ -299,7 +301,7 @@ class Viaje
         //Inicializo variables
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE viaje SET vdestino = '" . $this->getvdestino() . "',vcantmaxpasajeros = '" . $this->getvcantmaxpasajeros() . "',idempresa = " . $this->getobjIdEmpresa()->getidempresa() . ",numeroEmpleado = " . $this->getobjResponsableV()->getrnumeroempleado() . " WHERE idviaje = " . $this->getidviaje();
+        $consultaModifica = "UPDATE viaje SET vdestino = '" . $this->getvdestino() . "',vcantmaxpasajeros = '" . $this->getvcantmaxpasajeros() . "',idempresa = " . $this->getobjIdEmpresa()->getidempresa() . ",numeroEmpleado = " . $this->getobjResponsableV()->getrnumeroempleado() . ",vimporte = ". $this->getvimporte() ." WHERE idviaje = " . $this->getidviaje();
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()) {

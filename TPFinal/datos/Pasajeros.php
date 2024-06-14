@@ -15,7 +15,7 @@ class Pasajero extends Persona
 
 	//! ******** ATRIBUTOS ******** 
 	private $idPasajero;
-    private $idViaje;
+    private $objViaje;
 	private $mensajeoperacion;
 
 
@@ -24,35 +24,35 @@ class Pasajero extends Persona
     {
         parent::__construct();
 		$this->idPasajero =    0;
-        $this->idViaje =    0;
+        $this->objViaje = new Viaje();
     }
 
 	//! ******** Creo la funcion cargar ******** 
-    public function cargar($idPerso = null ,$NroD, $Nom, $Ape, $telefono, $idViaje = null,$idPasajero = null){	
+    public function cargar($idPerso = null ,$NroD, $Nom, $Ape, $telefono, $objViaje = null,$idPasajero = null){	
 		parent::cargar($idPerso,$NroD, $Nom, $Ape, $telefono);
+		$this->setObjViaje($objViaje);
 		$this->setIdPasajero($idPasajero);
-		$this->setIdViaje($idViaje);
     }
 
     //! **********GETTERS*************
-    public function getIdViaje()
+    public function getobjViaje()
     {
-        return $this->idViaje;
+        return $this->objViaje;
     }
 
     public function getMensajeoperacion()
     {
         return $this->mensajeoperacion;
     }
-	public function getIPasajero()
+	public function getIdPasajero()
     {
         return $this->idPasajero;
     }
 
     //! **********SETTERS**********
-    public function setIdViaje($id)
+    public function setObjViaje($id)
     {
-        $this->idViaje=$id;
+        $this->objViaje=$id;
     }
 
 	public function setIdPasajero($id){
@@ -68,7 +68,7 @@ class Pasajero extends Persona
     public function __toString()
     {
         $cadena= parent:: __toString() . "\n";
-        $cadena.="ID viaje: " . $this->getIdViaje(). "\n";
+        $cadena.="ID viaje: " . $this->getobjViaje(). "\n";
         return $cadena;
     }
 
@@ -80,18 +80,18 @@ class Pasajero extends Persona
 	 * @param INT $dni
 	 * @return BOOLEAN $resp 
 	 */		
-    public function Buscar($dni){
+    public function Buscar($idpersona){
 		$base = new BaseDatos();
-		$consulta = "SELECT * from pasajero where nrodocumento = ".$dni;
+		$consulta = "SELECT * from pasajero where idpersona = ".$idpersona;
 		$resp = false;
 
 		//Si se conecta a la base de datos
 		if($base->Iniciar()){
 		    if($base->Ejecutar($consulta)){
 				if($row2=$base->Registro()){	
-				    parent::Buscar($dni);
+				    parent::Buscar($idpersona);
 					
-				    $this->setIdViaje($row2['idviaje']);
+				    $this->setObjViaje($row2['idviaje']);
 					$resp= true;
 				}				
 		 	}else{ //Si no se ejecuta la consulta
@@ -167,8 +167,9 @@ class Pasajero extends Persona
 		
 		//
 		if(parent::insertar()){
-		    $consultaInsertar="INSERT INTO pasajero(nroDoc, idviaje)
-				VALUES (".parent::getNrodoc().",".$this->getIdViaje().",')";
+		    $consultaInsertar="INSERT INTO pasajero(idpersona, idviaje)
+				VALUES ('".parent::getIdPersona()."',".$this->getobjViaje()->getidviaje().")";
+				
 		    if($base->Iniciar()){
 		        if($base->Ejecutar($consultaInsertar)){
 		            $resp=  true;
@@ -193,7 +194,7 @@ class Pasajero extends Persona
     {
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE pasajero SET apellido = '" . parent::getApellido() . "', nombre = '" . parent::getNombre() . "', nrodoc = " . parent::getNrodoc(). ", telefono = " . parent::getTelefono() . ", ID Viaje = ".$this->getIdViaje()." WHERE nrodoc = " . parent::getNrodoc(); //! Ver esto
+        $consultaModifica = "UPDATE pasajero SET apellido = '" . parent::getApellido() . "', nombre = '" . parent::getNombre() . "', nrodoc = " . parent::getNrodoc(). ", telefono = " . parent::getTelefono() . ", idviaje = ".$this->getobjViaje()->getidviaje()." WHERE nrodoc = " . parent::getNrodoc(); //! Ver esto
 
         //Si se conecta a la base de datos 
         if ($base->Iniciar()) {
@@ -226,7 +227,7 @@ class Pasajero extends Persona
 
 		//Si se conecta a la base de datos
 		if($base->Iniciar()){
-			$consultaBorra = "DELETE FROM pasajero WHERE nrodoc = ".parent::getNrodoc();
+			$consultaBorra = "DELETE FROM pasajero WHERE idpersona = ".parent::getIdPersona();
 
 			//Si se ejecuta la consulta
 			if($base->Ejecutar($consultaBorra)){
@@ -243,4 +244,6 @@ class Pasajero extends Persona
 		}
 		return $resp; 
 	}
+
+	 
 }
