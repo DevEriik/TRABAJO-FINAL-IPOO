@@ -235,7 +235,7 @@ class Persona
     {
         $resp = false;
         $base = new BaseDatos();  //!NO SABEMOS PORQUE NOS TIRA ERROR ACA EN LA CONSULTA
-        $consultaModifica = "UPDATE persona SET apellido = '" . $this->getApellido() . "', nombre = '" . $this->getNombre() . "', nrodocumento = " . $this->getNrodoc() . ", telefono = " . $this->getTelefono() . " WHERE idpersona = " . $this->getIdPersona();
+        $consultaModifica = "UPDATE persona SET nombre='" . $this->getNombre() . "', nrodocumento='" . $this->getNrodoc() . "', apellido='" . $this->getApellido() . "',telefono='" . $this->getTelefono() . "' WHERE idpersona = " . $this->getIdPersona();
 
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {

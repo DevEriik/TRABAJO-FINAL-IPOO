@@ -378,7 +378,7 @@ function modificarResponsable($objResponsable)
             $nroDoc =  trim(fgets(STDIN));
            	
 
-            $objResponsable->cargar($nroDoc, $nombre, $apellido, $telefono,$idEmpleado,$nroLicencia);
+            $objResponsable->cargar($idEmpleado,$nroDoc, $nombre , $apellido,$telefono,$nroLicencia);
             $objResponsable->modificar();
             echo "Responsable modificado correctamente. ";
         } else {

@@ -268,8 +268,8 @@ class Viaje
         //Inicializo variables
         $base = new BaseDatos();
         $resp = false;
-        $consultaInsertar = "INSERT INTO viaje(vdestino, vcantmaxpasajeros, idempresa, rnumeroempleado, vimporte)
-				VALUES (" . $this->getvdestino() . "','" . $this->getvcantmaxpasajeros() . "','" . $this->getobjIdEmpresa()->getIdEmpresa() . "','" . $this->getobjResponsableV()->getrnumeroempleado() . "','" . $this->getvimporte() . "');";
+        $consultaInsertar = "INSERT INTO viaje(vdestino, vcantmaxpasajeros, idempresa, numeroEmpleado, vimporte)
+				VALUES ('" . $this->getvdestino() . "','" . $this->getvcantmaxpasajeros() . "','" . $this->getobjIdEmpresa()->getIdEmpresa() . "','" . $this->getobjResponsableV()->getrnumeroempleado() . "','" . $this->getvimporte() . "')";
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()) {
