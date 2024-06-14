@@ -281,6 +281,10 @@ class Persona
     //! ******** __toString ******** 
     public function __toString()
     {
-        return "\nNombre: " . $this->getNombre() . "\n Apellido:" . $this->getApellido() . "\n DNI: " . $this->getNrodoc() . "\n" . "Telefono: " . $this->getTelefono();
+        return "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n" .
+        "Nombre: " . $this->getNombre() . "\n" .
+        "Apellido:" . $this->getApellido() . "\n" .
+        "DNI: " . $this->getNrodoc() . "\n" .
+        "Telefono: " . $this->getTelefono() . "\n";
     }
 }
