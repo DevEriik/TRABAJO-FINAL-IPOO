@@ -358,7 +358,7 @@ function modificarResponsable($objResponsable)
         echo "Sin responsables cargados en la BD. \n";
     } else {
         //Muestro listado de responsables disponibles para modificar
-        echo "Responsables cargados a la BD: ";
+        echo "Responsables cargados a la BD: \n";
         muestraElementos($objResponsable, "");
 
         echo "\nN° de empleado del responsable a modificar: ";
