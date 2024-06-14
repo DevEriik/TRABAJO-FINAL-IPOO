@@ -153,7 +153,7 @@ class Viaje
             "ID Empresa: " . $this->getobjIdEmpresa() . "\n" .
             "ID Empleado: " . $this->getobjResponsableV() . "\n" .
             "Importe: " . $this->getvimporte() . "\n" .
-            "Pasajeros: " . $this->getcolPasajeros() . "\n";
+            "Pasajeros: " .$this->retornaCadena($this->getcolPasajeros()) . "\n";
     }
 
 
@@ -192,7 +192,7 @@ class Viaje
                     $this->setobjIdEmpresa($newObjEmpresa);
                     //*Listo el responsableV
                     $newObjResponsableV = new ResponsableV();
-                    $newObjResponsableV->Buscar($row2['rnumeroempleado']);
+                    $newObjResponsableV->Buscar($row2['numeroEmpleado']);
                     $this->setobjResponsableV($newObjResponsableV);
                     $this->setvimporte($row2['vimporte']);
                     //*Listo el pasajero
@@ -240,7 +240,7 @@ class Viaje
                     $destino = $row2['vdestino'];
                     $cantMaxPasajeros = $row2['vcantmaxpasajeros'];
                     $idempresa = $row2['idempresa'];
-                    $numeroempleado = $row2['rnumeroempleado'];
+                    $numeroempleado = $row2['numeroEmpleado'];
                     $importe = $row2['vimporte'];
 
                     $viaj = new Viaje();
@@ -299,7 +299,7 @@ class Viaje
         //Inicializo variables
         $resp = false;
         $base = new BaseDatos();
-        $consultaModifica = "UPDATE viaje SET vdestino = '" . $this->getvdestino() . "',vcantmaxpasajeros = '" . $this->getvcantmaxpasajeros() . "',idempresa = " . $this->getobjIdEmpresa()->getidempresa() . ",rnumeroempleado = " . $this->getobjResponsableV()->getrnumeroempleado() . " WHERE idviaje = " . $this->getidviaje();
+        $consultaModifica = "UPDATE viaje SET vdestino = '" . $this->getvdestino() . "',vcantmaxpasajeros = '" . $this->getvcantmaxpasajeros() . "',idempresa = " . $this->getobjIdEmpresa()->getidempresa() . ",numeroEmpleado = " . $this->getobjResponsableV()->getrnumeroempleado() . " WHERE idviaje = " . $this->getidviaje();
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()) {
@@ -360,5 +360,18 @@ class Viaje
         }
 
         $this->eliminar();
+    }
+
+    /**
+     * Retorna una cadena de caracteres
+     */
+
+     public function retornaCadena($coleccion){
+        $cadena=" ";
+        foreach($coleccion as $elemento){
+            $cadena=$cadena." ".$elemento."\n";
+    
+        }
+        return $cadena;
     }
 }

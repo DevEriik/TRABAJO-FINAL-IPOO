@@ -82,7 +82,7 @@ class Pasajero extends Persona
 	 */		
     public function Buscar($dni){
 		$base = new BaseDatos();
-		$consulta = "SELECT * from pasajero where nrodoc = ".$dni;
+		$consulta = "SELECT * from pasajero where nrodocumento = ".$dni;
 		$resp = false;
 
 		//Si se conecta a la base de datos

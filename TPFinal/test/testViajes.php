@@ -405,10 +405,10 @@ function eliminarResponsable($objResponsable)
             $rta = trim(fgets(STDIN));
             if ($rta == "s") {
                 $objResponsable->eliminar();
-                echo "Responsable eliminado correctamente. ";
+                echo "Responsable eliminado correctamente. \n";
             }
         } else {
-            echo "ID de responsable inválido/innexistente. ";
+            echo "ID de responsable inválido/innexistente. \n";
         }
     } else {
         echo "Sin responsables cargados en la BD. \n";
