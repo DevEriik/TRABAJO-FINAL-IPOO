@@ -1,8 +1,6 @@
 <?php
 /*
-? Mismos cambios que en pasajeros
-
-? funcion cargar --> me molestan las variables que comienzan con mayusculas, hay que consultar, porque estaban así en lo que mandaron de ejemplo. Ademas, se usan con mayusculas en los setter pero no en el __construct ni en los getters
+? Linea 238 --> $base = new BaseDatos();  //!NO SABEMOS PORQUE NOS TIRA ERROR ACA EN LA CONSULTA
 */
 //! ******** CREO LA CLASE ******** 
 class Persona
