@@ -234,8 +234,9 @@ class Persona
     public function modificar()
     {
         $resp = false;
-        $base = new BaseDatos();
-        $consultaModifica = "UPDATE persona SET apellido = '" . $this->getApellido() . "',nombre = '" . $this->getNombre() . "',nrodoc = " . $this->getNrodoc(). ",telefono = " . $this->getTelefono() . " WHERE nrodoc = " . $this->getNrodoc();
+        $base = new BaseDatos();  //!NO SABEMOS PORQUE NOS TIRA ERROR ACA EN LA CONSULTA
+        $consultaModifica = "UPDATE persona SET apellido = '" . $this->getApellido() . "', nombre = '" . $this->getNombre() . "', nrodocumento = " . $this->getNrodoc() . ", telefono = " . $this->getTelefono() . " WHERE idpersona = " . $this->getIdPersona();
+
         if ($base->Iniciar()) {
             if ($base->Ejecutar($consultaModifica)) {
                 $resp = true;
@@ -262,7 +263,7 @@ class Persona
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()){
-            $consultaBorra = "DELETE FROM persona WHERE nrodoc=" . $this->getNrodoc();
+            $consultaBorra = "DELETE FROM persona WHERE nrodocumento=" . $this->getNrodoc();
 
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaBorra)){

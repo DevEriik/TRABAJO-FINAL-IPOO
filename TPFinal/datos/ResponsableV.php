@@ -3,104 +3,106 @@
 class ResponsableV extends Persona
 {
 
-    //!ATRIBUTOS
+	//!ATRIBUTOS
 
-    private $rnumeroEmpleado;
-    private $rnumeroLicencia;
+	private $rnumeroEmpleado;
+	private $rnumeroLicencia;
 
-    //!CONSTRUCTOR
+	//!CONSTRUCTOR
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->rnumeroEmpleado = 0;
-        $this->rnumeroLicencia = 0;
-    }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->rnumeroEmpleado = 0;
+		$this->rnumeroLicencia = 0;
+	}
 
 	//! ******** Creo la funcion cargar ******** 
-    public function cargar($idPerso = null,$NroD, $Nom, $Ape, $telefono, $rnumeroEmpleado = null ,$rnumeroLicencia = null){	
-		parent::cargar($idPerso = null,$NroD, $Nom, $Ape, $telefono);
+	public function cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono, $rnumeroEmpleado = null, $rnumeroLicencia = null)
+	{
+		parent::cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono);
 		$this->setRnumeroLicencia($rnumeroLicencia);
-    }
+	}
 
-    //! ************GETTERS**************
-    //Obtiene el valor de rnumeroEmpleado
-    public function getRnumeroEmpleado()
-    {
-        return $this->rnumeroEmpleado;
-    }
+	//! ************GETTERS**************
+	//Obtiene el valor de rnumeroEmpleado
+	public function getRnumeroEmpleado()
+	{
+		return $this->rnumeroEmpleado;
+	}
 
-    //Obtiene el valor de rnumeroEmpleado
-    public function getRnumeroLicencia()
-    {
-        return $this->rnumeroLicencia;
-    }
-
-
-    //! ************SETTERS**************
-    //Setea el valor de rnumeroEmpleado
-    public function setRnumeroEmpleado($rnumeroEmpleado)
-    {
-        $this->rnumeroEmpleado = $rnumeroEmpleado;
-    }
-
-    //Setea el valor de rnumeroLicencia
-    public function setRnumeroLicencia($rnumeroLicencia)
-    {
-        $this->rnumeroLicencia = $rnumeroLicencia;
-    }
+	//Obtiene el valor de rnumeroEmpleado
+	public function getRnumeroLicencia()
+	{
+		return $this->rnumeroLicencia;
+	}
 
 
-    //! ************ __toString() ************
+	//! ************SETTERS**************
+	//Setea el valor de rnumeroEmpleado
+	public function setRnumeroEmpleado($rnumeroEmpleado)
+	{
+		$this->rnumeroEmpleado = $rnumeroEmpleado;
+	}
 
-    public function __toString()
-    {
-        $msjToString = parent:: __toString();
-        $msjToString .= "Número de Empleado: " . $this->getRnumeroEmpleado() . "\n" .
-            "Número de Licencia: " . $this->getRnumeroLicencia() . "\n";
-            return $msjToString;
-    }
+	//Setea el valor de rnumeroLicencia
+	public function setRnumeroLicencia($rnumeroLicencia)
+	{
+		$this->rnumeroLicencia = $rnumeroLicencia;
+	}
+
+
+	//! ************ __toString() ************
+
+	public function __toString()
+	{
+		$msjToString = parent::__toString();
+		$msjToString .= "Número de Empleado: " . $this->getRnumeroEmpleado() . "\n" .
+			"Número de Licencia: " . $this->getRnumeroLicencia() . "\n";
+		return $msjToString;
+	}
 
 
 	//! ********* BUSCAR *********
-    /**
+	/**
 	 * Recupera los datos de un Responsable por medio de su numero de empleado que se ingresa como parametro.
 	 * Retorna true en caso de encontrar los datos, false en caso contrario.
 	 * @param INT $nroEmpleado
 	 * @return BOOLEAN $resp 
-	 */		
-    public function Buscar($nroEmpleado){
+	 */
+	public function Buscar($nroEmpleado)
+	{
 		$base = new BaseDatos();
-		$consulta = "Select * from responsable where numeroEmpleado = ".$nroEmpleado;
+		$consulta = "Select * from responsable where numeroEmpleado = " . $nroEmpleado;
 		$resp = false;
 
 		//Si se conecta a la base de datos
-		if($base->Iniciar()){
-		    if($base->Ejecutar($consulta)){
-				if($row2 = $base->Registro()){	
-				    parent::Buscar($nroEmpleado);
-				    parent::setNrodoc($row2['numeroEmpleado']);
-					$resp= true;
-				}				
-		 	}else{
-		 		$this->setMensajeoperacion($base->getError());
+		if ($base->Iniciar()) {
+			if ($base->Ejecutar($consulta)) {
+				if ($row2 = $base->Registro()) {
+					parent::Buscar($nroEmpleado);
+					parent::setNrodoc($row2['numeroEmpleado']);
+					$resp = true;
+				}
+			} else {
+				$this->setMensajeoperacion($base->getError());
 			}
-
-		}else{ //Si no se conecta a la base de datos
+		} else { //Si no se conecta a la base de datos
 			$this->setMensajeOperacion($base->getError());
-		}		
+		}
 		return $resp;
-    }
+	}
 
 
-    //! ******** LISTAR ******** 
-    /**
+	//! ******** LISTAR ******** 
+	/**
 	 * Lista los datos de todos los empleados por medio de una consulta ingresada como parametro.
 	 * Retorna un array con los datos obtenidos, si no encuentra nada retorna un array vacio.
 	 * @param STRING $condicion
 	 * @return ARRAY $arreglo 
-	 */		
-	public function listar($condicion = ""){
+	 */
+	public function listar($condicion = "")
+	{
 		//Inicializo variables
 		$arreglo = null;
 		$base = new BaseDatos();
@@ -108,132 +110,126 @@ class ResponsableV extends Persona
 		//Asigno valor a la consulta y la trabajo con la condicional if
 		$consulta = "SELECT * FROM responsable ";		//! Pusimos select * from pasajero pero no sabemos si es SELECT * FROM pasajero 
 
-		if ($condicion != ""){
-			$consulta = $consulta.' where '.$condicion;
+		if ($condicion != "") {
+			$consulta = $consulta . ' where ' . $condicion;
 		}
 
 		//
 		$consulta .= " order by numeroEmpleado "; //! COMO LO ORDENAMOS? 
 
 		//Si se conecta a la base de datos
-		if($base->Iniciar()){
+		if ($base->Iniciar()) {
 
 			//Si se ejecuta la consulta
-			if($base->Ejecutar($consulta)){				
+			if ($base->Ejecutar($consulta)) {
 				$arreglo = array();
 
 				//
-				while($row2 = $base->Registro()){
+				while ($row2 = $base->Registro()) {
 					$obj = new ResponsableV();
-					$obj->Buscar($row2['numeroEmpleado']); //! No entiendo esta linea
+					$obj->Buscar($row2['numeroEmpleado']);
 					//Agrego el responsable al array
-					array_push($arreglo,$obj);
+					array_push($arreglo, $obj);
 				}
-
-			}else{ //Si no se ejecuta la consulta
+			} else { //Si no se ejecuta la consulta
 				$this->setMensajeOperacion($base->getError());
 			}
-
-		}else{ //Si no se conecta a la base de datos
+		} else { //Si no se conecta a la base de datos
 			$this->setMensajeOperacion($base->getError());
 		}
 		return $arreglo;
-    }
+	}
 
 
-    //! ******** INSERTAR ******** 
-    /**
+	//! ******** INSERTAR ******** 
+	/**
 	 * Inserta un nuevo empleado a la coleccion de empleados.
 	 * Retorna true si pudo insertarlo y false en caso contrario.
 	 * @return BOOLEAN $resp 
-	 */		
-	public function insertar(){
+	 */
+	public function insertar()
+	{
 		//Inicializo variables
 		$base = new BaseDatos();
 		$resp = false;
 		//
-		if(parent::insertar()){
-		    $consultaInsertar="INSERT INTO responsable (idpersona,numerolicencia)
-				VALUES ( '".parent::getIdPersona()."','".$this->getRnumeroLicencia()."')";
-		//Si se conecta a la base de datos
-        if($base->Iniciar()){
+		if (parent::insertar()) {
+			$consultaInsertar = "INSERT INTO responsable (idpersona,numerolicencia)
+				VALUES ( '" . parent::getIdPersona() . "','" . $this->getRnumeroLicencia() . "')";
+			//Si se conecta a la base de datos
+			if ($base->Iniciar()) {
 
-			//Si se ejecuta la consulta
-		        if($base->Ejecutar($consultaInsertar)){
-		            $resp=  true;
-
-		        }else{ //Si no se ejecuta la consulta 
-		            $this->setMensajeoperacion($base->getError());
-		        }
-
-		    }else{ //Si no se conecta a la base de datos
-		        $this->setMensajeoperacion($base->getError());
-		    }
+				//Si se ejecuta la consulta
+				if ($base->Ejecutar($consultaInsertar)) {
+					$resp =  true;
+				} else { //Si no se ejecuta la consulta 
+					$this->setMensajeoperacion($base->getError());
+				}
+			} else { //Si no se conecta a la base de datos
+				$this->setMensajeoperacion($base->getError());
+			}
 		}
 		return $resp;
-    }
+	}
 
 
-    //! ******** MODIFICAR ******** 
+	//! ******** MODIFICAR ******** 
 	/**
 	 * Modifica un empleado de la coleccion de empleados.
 	 * Retorna true si pudo modificarla y false en caso contrario.
 	 * @return BOOLEAN $resp 
-	 */		
-    public function modificar()
-    {
-        $resp = false;
-        $base = new BaseDatos();
-        $consultaModifica = "UPDATE responsable SET apellido = '" . parent::getApellido() . "', nombre = '" . parent::getNombre() . "',nrodoc = " . parent::getNrodoc(). ", telefono = " . parent::getTelefono() . ", N° de empleado = ".$this->getRnumeroEmpleado().", rnumerolicencia = ".$this->getRnumeroLicencia()." WHERE nrodoc = " . parent::getNrodoc(); //! Ver esto con los nombres de las columnas de la tabla********************
+	 */
+	public function modificar()
+	{
+		$resp = false;
+		$base = new BaseDatos();
+		if (parent::modificar()) {
+			$consultaModifica = "UPDATE responsable SET nrodocumento = '" . parent::getNrodoc() . "', nombre = '" . parent::getNombre() . "',apellido = '" . parent::getApellido() . "', telefono = '" . parent::getTelefono() . "', numerolicencia = '" . $this->getRnumeroLicencia() . "' WHERE numeroEmpleado = " . $this->getRnumeroEmpleado();
 
-        //Si se conecta a la base de datos 
-        if ($base->Iniciar()){
+			//Si se conecta a la base de datos 
+			if ($base->Iniciar()) {
 
-            //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaModifica)) {
-                $resp = true;
-
-            }else{ //Si no se ejecuta la consulta 
-                $this->setmensajeOperacion($base->getError());
-            }
-
-        }else{ //Si no se conecta a la base de datos
-            $this->setmensajeOperacion($base->getError());
-        }
-        return $resp;
+				//Si se ejecuta la consulta
+				if ($base->Ejecutar($consultaModifica)) {
+					$resp = true;
+				} else { //Si no se ejecuta la consulta 
+					$this->setmensajeOperacion($base->getError());
+				}
+			} else { //Si no se conecta a la base de datos
+				$this->setmensajeOperacion($base->getError());
+			}
+			return $resp;
+		}
 	}
 
 
 	//! ******** ELIMINAR ******** 
-    /**
+	/**
 	 * Elimina un empleado a la coleccion de empleados.
 	 * Retorna true si pudo eliminarlo y false en caso contrario.
 	 * @return BOOLEAN $resp 
-	 */		
-    public function eliminar()
-    {
+	 */
+	public function eliminar()
+	{
 		//Inicializo variables
 		$base = new BaseDatos();
 		$resp = false;
 
 		//Si se conecta a la base de datos
-		if($base->Iniciar()){
-			$consultaBorra = "DELETE FROM responsable WHERE rnumeroEmpleado = ".$this->getRnumeroEmpleado();
+		if ($base->Iniciar()) {
+			$consultaBorra = "DELETE FROM responsable WHERE numeroEmpleado = " . $this->getRnumeroEmpleado();
 
 			//Si se ejecuta la consulta
-			if($base->Ejecutar($consultaBorra)){
-				if(parent::eliminar()){
+			if ($base->Ejecutar($consultaBorra)) {
+				if (parent::eliminar()) {
 					$resp = true;
 				}
-
-			}else{ //Si no puede ejecutar la consulta
+			} else { //Si no puede ejecutar la consulta
 				$this->setMensajeOperacion($base->getError());
 			}
-
-		}else{ //Si no puede conectarse a la base de datos
+		} else { //Si no puede conectarse a la base de datos
 			$this->setMensajeOperacion($base->getError());
 		}
-		return $resp; 
+		return $resp;
 	}
-
 }

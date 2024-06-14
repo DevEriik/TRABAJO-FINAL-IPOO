@@ -372,8 +372,13 @@ function modificarResponsable($objResponsable)
             $apellido = trim(fgets(STDIN));
             echo "Nuevo n° del responsable: ";
             $nroLicencia = trim(fgets(STDIN));
+            echo "Nuevo nº de telefono";
+            $telefono = trim(fgets(STDIN));
+            echo "Ingrese nro doc";
+            $nroDoc =  trim(fgets(STDIN));
+           	
 
-            $objResponsable->cargar($idEmpleado, $nroLicencia, $nombre, $apellido);
+            $objResponsable->cargar($nroDoc, $nombre, $apellido, $telefono,$idEmpleado,$nroLicencia);
             $objResponsable->modificar();
             echo "Responsable modificado correctamente. ";
         } else {
