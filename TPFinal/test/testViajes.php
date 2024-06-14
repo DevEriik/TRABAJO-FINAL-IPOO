@@ -322,7 +322,6 @@ function eliminarViaje($objViaje)
  */
 function insertarResponsable($objResponsable)
 {
-
     echo "Numero de documento del responsable: ";
     $nrodocumento = trim(fgets(STDIN));
     echo "Nombre del responsable: ";
@@ -376,7 +375,6 @@ function modificarResponsable($objResponsable)
             $telefono = trim(fgets(STDIN));
             echo "Ingrese el N° de documento: ";
             $nroDoc =  trim(fgets(STDIN));
-           	
 
             $objResponsable->cargar("", $nroDoc,  $nombre, $apellido, $telefono, "" ,$nroLicencia);
             $objResponsable->modificar();

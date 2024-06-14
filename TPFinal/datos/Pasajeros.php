@@ -1,13 +1,4 @@
 <?php
-/*
-TODO: N° de linea aproximado --> Falla que veo --> Linea original para saber cual es si es que no esta en la misma linea
-
-!Liena 103 --> funcion listar --> es "estatic function" o "public static function"??? --> Ver para todas las clases
-
-? Linea 107 --> No se bien si eso está bien --> @param STRING $condicion
-
-? Linea 138 --> Está para probar supongo, cuando no se necesite mas hay que sacarlo --> //echo $consultaPersonas;
-*/
 
 //! ******** CREO LA CLASE ******** 
 class Pasajero extends Persona
