@@ -28,8 +28,8 @@ class Pasajero extends Persona
     }
 
 	//! ******** Creo la funcion cargar ******** 
-    public function cargar($NroD, $Nom, $Ape, $telefono, $idViaje = null,$idPasajero = null){	
-		parent::cargar($NroD, $Nom, $Ape, $telefono);
+    public function cargar($idPerso ,$NroD, $Nom, $Ape, $telefono, $idViaje = null,$idPasajero = null){	
+		parent::cargar($idPerso,$NroD, $Nom, $Ape, $telefono);
 		$this->setIdPasajero($idPasajero);
 		$this->setIdViaje($idViaje);
     }

@@ -8,6 +8,7 @@
 class Persona
 {
 	//! ******** ATRIBUTOS ******** 
+    private $idpersona;
     private $nrodoc;
     private $nombre;
     private $apellido;
@@ -17,14 +18,16 @@ class Persona
     //! ******** CONSTRUCTOR ******** 
     public function __construct()
     {
+        $this->idpersona = 0;
         $this->nrodoc = "";
         $this->nombre = "";
         $this->apellido = "";
         $this->telefono = 0;
     }
 
-    public function cargar($NroD, $Nom, $Ape, $Tel)
+    public function cargar($idPerso = null,$NroD, $Nom, $Ape, $Tel)
     {
+        $this->setIdPersona($idPerso);
         $this->setNrodoc($NroD);
         $this->setNombre($Nom);
         $this->setApellido($Ape);
@@ -34,6 +37,10 @@ class Persona
 
     //! ********** SETTERS *************
 	//Setea el valor de NroDNI
+    public function setIdPersona($idPerso)
+    {
+        $this->idpersona = $idPerso;
+    }
     public function setNrodoc($NroDNI)
     {
         $this->nrodoc = $NroDNI;
@@ -66,6 +73,9 @@ class Persona
 
     //! ********** GETTERS *************
     //Obtiene el valor de nroDoc
+    public function getIdPersona(){
+	    return $this->idpersona;
+	}
     public function getNrodoc()
     {
         return $this->nrodoc;
@@ -105,7 +115,7 @@ class Persona
     public function Buscar($dni)
     {
         $base = new BaseDatos();
-        $consultaPersona = "Select * from persona where nrodoc = " . $dni;
+        $consultaPersona = "Select * from persona where nrodocumento = " . $dni;
         $resp = false;
 
         //Si se conecta a la base de datos
@@ -116,6 +126,7 @@ class Persona
 
                 //
                 if ($row2 = $base->Registro()) {
+                    $this->setIdPersona($row2['idpersona']);
                     $this->setNrodoc($dni);
                     $this->setNombre($row2['nombre']);
                     $this->setApellido($row2['apellido']);
@@ -161,16 +172,16 @@ class Persona
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaPersonas)) {
                 $arregloPersona = array();
-
                 //
                 while ($row2 = $base->Registro()) {
+                    $idPerso=$row2['idpersona'];
                     $NroDoc = $row2['nrodoc'];
                     $Nombre = $row2['nombre'];
                     $Apellido = $row2['apellido'];
                     $Telefono = $row2['telefono']; //!VER COMO SE AGREGO EN LA BASE DE DATOS EL NOMBRE DE LA COLUMNA.
 
                     $perso = new Persona();
-                    $perso->cargar($NroDoc, $Nombre, $Apellido, $Telefono);
+                    $perso->cargar($idPerso,$NroDoc, $Nombre, $Apellido, $Telefono);
                     array_push($arregloPersona, $perso);
                 }
 
@@ -198,12 +209,11 @@ class Persona
         $resp = false;
         $consultaInsertar = "INSERT INTO persona(nrodocumento, nombre, apellido, telefono)
 				VALUES ('" . $this->getNrodoc() . "','" . $this->getNombre() . "','" . $this->getApellido() . "','" . $this->getTelefono() . "')";
-
         //Si se conecta a la base de datos
         if ($base->Iniciar()) {
-            if ($nroDoc = $base->devuelveIDInsercion($consultaInsertar)) {
-                echo "ENTRO A AL IF\n";
-                $this->getNrodoc($nroDoc);  //TODO: ACA DEBERIA DE IR NRODOC?
+
+            if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
+                $this->setIdPersona($id);
                 $resp = true;
             } else {
                 $this->setmensajeOperacion($base->getError());

@@ -18,9 +18,8 @@ class ResponsableV extends Persona
     }
 
 	//! ******** Creo la funcion cargar ******** 
-    public function cargar($NroD, $Nom, $Ape, $telefono, $rnumeroEmpleado = null, $rnumeroLicencia = null){	
-		parent::cargar($NroD, $Nom, $Ape, $telefono);
-		$this->setRnumeroEmpleado($rnumeroEmpleado);
+    public function cargar($idPerso = null,$NroD, $Nom, $Ape, $telefono, $rnumeroEmpleado = null ,$rnumeroLicencia = null){	
+		parent::cargar($idPerso = null,$NroD, $Nom, $Ape, $telefono);
 		$this->setRnumeroLicencia($rnumeroLicencia);
     }
 
@@ -70,17 +69,17 @@ class ResponsableV extends Persona
 	 * @param INT $nroEmpleado
 	 * @return BOOLEAN $resp 
 	 */		
-    public function Buscar($dni){
+    public function Buscar($nroEmpleado){
 		$base = new BaseDatos();
-		$consulta = "Select * from responsable where nrodoc = ".$dni;
+		$consulta = "Select * from responsable where numeroEmpleado = ".$nroEmpleado;
 		$resp = false;
 
 		//Si se conecta a la base de datos
 		if($base->Iniciar()){
 		    if($base->Ejecutar($consulta)){
 				if($row2 = $base->Registro()){	
-				    parent::Buscar($dni);
-				    parent::setNrodoc($row2['nrodoc']);
+				    parent::Buscar($nroEmpleado);
+				    parent::setNrodoc($row2['numeroEmpleado']);
 					$resp= true;
 				}				
 		 	}else{
@@ -126,7 +125,7 @@ class ResponsableV extends Persona
 				//
 				while($row2 = $base->Registro()){
 					$obj = new ResponsableV();
-					$obj->Buscar($row2['rnumeroempleado']); //! No entiendo esta linea
+					$obj->Buscar($row2['numeroEmpleado']); //! No entiendo esta linea
 					//Agrego el responsable al array
 					array_push($arreglo,$obj);
 				}
@@ -152,12 +151,10 @@ class ResponsableV extends Persona
 		//Inicializo variables
 		$base = new BaseDatos();
 		$resp = false;
-		
 		//
 		if(parent::insertar()){
-		    $consultaInsertar="INSERT INTO responsable (numerolicencia, nrodocumento)
-				VALUES ('".$this->getRnumeroLicencia()."','".$this->getNrodoc()."')";
-
+		    $consultaInsertar="INSERT INTO responsable (idpersona,numerolicencia)
+				VALUES ( '".parent::getIdPersona()."','".$this->getRnumeroLicencia()."')";
 		//Si se conecta a la base de datos
         if($base->Iniciar()){
 
