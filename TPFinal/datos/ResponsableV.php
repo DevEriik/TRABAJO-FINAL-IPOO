@@ -80,9 +80,8 @@ class ResponsableV extends Persona
 		//Si se conecta a la base de datos
 		if ($base->Iniciar()) {
 			if ($base->Ejecutar($consulta)) {
-				echo "ENTRO AL EJECUTAR\n";
-				if ($row2 = $base->Registro()) { //!NO ESTA ENTRADO A ESTE IF 
-					echo "ENTRO AL REGISTRO\n";
+
+				if ($row2 = $base->Registro()) {
 					parent::Buscar($idpersona);
 					$this->setRnumeroEmpleado($row2['numeroEmpleado']);
 					$this->setRnumeroLicencia($row2['numerolicencia']);
@@ -131,7 +130,7 @@ class ResponsableV extends Persona
 				//
 				while ($row2 = $base->Registro()) {
 					$obj = new ResponsableV();
-					$obj->Buscar($row2['numeroEmpleado']);
+					$obj->Buscar($row2['idpersona']);
 					//Agrego el responsable al array
 					array_push($arreglo, $obj);
 				}
