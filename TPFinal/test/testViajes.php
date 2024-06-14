@@ -322,7 +322,7 @@ function eliminarViaje($objViaje)
  */
 function insertarResponsable($objResponsable)
 {
-    //!DEBEMOS CARGAR UNA PERSONA ANTES DE CARGAR UN RESPONSABLE.
+
     echo "Numero de documento del responsable: ";
     $nrodocumento = trim(fgets(STDIN));
     echo "Nombre del responsable: ";
