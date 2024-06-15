@@ -236,5 +236,5 @@ class Pasajero extends Persona
 		return $resp; 
 	}
 
-	 
+	
 }

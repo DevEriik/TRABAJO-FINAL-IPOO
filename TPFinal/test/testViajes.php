@@ -302,7 +302,7 @@ function eliminarViaje($objViaje)
     if (!empty($colViajes)) {
         echo "\nViajes cargados a la BD: ";
         muestraElementos($objViaje, "");
-
+        echo "¡Alerta! :: Se borrarán los pasajeros vinculados a este viaje\n ";
         echo "\nID del viaje a eliminar: ";
         $idViaje = trim(fgets(STDIN));
 
@@ -390,7 +390,7 @@ function modificarResponsable($objResponsable)
 /**
  * Elimina un Responsable.
  */
-function eliminarResponsable($objResponsable, $objPasajero)
+function eliminarResponsable($objResponsable)
 {
     $colResponsable = $objResponsable->listar();
     if (!empty($colResponsable)) {
@@ -433,8 +433,7 @@ function insertarPasajero()
         //Compruebo si este viaje existe
         if ($objViaje->buscar($idViaje)) {
             $condicion = "idviaje= " . $idViaje;
-            // $colPasajeros = $objPasajero->listar($condicion);
-            $colPasajeros = $objViaje->getcolPasajeros();
+            $colPasajeros = $objPasajero->listar($condicion);
             $cantActual = count($colPasajeros);
             $max = $objViaje->getvcantmaxpasajeros();
             $asientosDisponibles = $max - $cantActual;
@@ -650,7 +649,7 @@ while ($opcionMenu != 5) {
                         break;
                     case 4:
                         //Eliminar un responsable
-                        eliminarResponsable($objResponsable, $objPasajero);
+                        eliminarResponsable($objResponsable);
                         break;
                 }
                 $opcionResponsable = menuDeResponsable();

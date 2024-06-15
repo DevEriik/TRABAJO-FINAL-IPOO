@@ -13,7 +13,6 @@ class Viaje
     private $objIdEmpresa;
     private $objResponsableV;
     private $vimporte;
-    private $colPasajeros;
     private $mensajeoperacion;
 
 
@@ -27,7 +26,6 @@ class Viaje
         $this->objIdEmpresa = new Empresa();
         $this->objResponsableV = new ResponsableV();
         $this->vimporte = 0;
-        $this->colPasajeros = [];
     }
 
 
@@ -90,11 +88,6 @@ class Viaje
         return $this->mensajeoperacion;
     }
 
-    //Obtiene los datos de colPasajeros
-    public function getcolPasajeros()
-    {
-        return $this->colPasajeros;
-    }
 
     //! **********SETTERS*************
     //Setea los datos de idviaje
@@ -139,11 +132,6 @@ class Viaje
         $this->mensajeoperacion = $mensajeoperacion;
     }
 
-    //Setea los datos de colPasajeros
-    public function setcolPasajeros($colPasajeros)
-    {
-        $this->colPasajeros = $colPasajeros;
-    }
 
     //! *********** __toString() ************
 
@@ -154,8 +142,7 @@ class Viaje
             "Cant. Max. Pasajeros: " . $this->getvcantmaxpasajeros() . "\n" .
             "ID Empresa: " . $this->getobjIdEmpresa() . "\n" .
             "Numero Empleado: " . $this->getobjResponsableV() . "\n" .
-            "Importe: " . $this->getvimporte() . "\n" .
-            "Pasajeros: " .$this->retornaCadena($this->getcolPasajeros()) . "\n";
+            "Importe: " . $this->getvimporte() . "\n";
     }
 
 
@@ -197,10 +184,6 @@ class Viaje
                     $newObjResponsableV->Buscar($row2['numeroEmpleado']);
                     $this->setobjResponsableV($newObjResponsableV);
                     $this->setvimporte($row2['vimporte']);
-                    //*Listo el pasajero
-                    $newObjPasajero = new Pasajero();
-                    $arregloPasajero = $newObjPasajero->listar("idviaje=" . $idviaje);
-                    $this->setcolPasajeros($arregloPasajero);
                     $resp = true;
                 }
             } else { //Si no se ejecuta la consulta
@@ -333,11 +316,17 @@ class Viaje
 
         //Si se conecta a la base de datos
         if ($base->Iniciar()) {
-            $consultaBorra = "DELETE FROM viaje WHERE idviaje = " . $this->getidviaje();
-
+            $consultaBorraPasajeros = "DELETE FROM pasajero WHERE idviaje = " . $this->getidviaje();
+        
             //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaBorra)) {
-                $resp = true;
+            if ($base->Ejecutar($consultaBorraPasajeros)) {
+                $consultaBorra = "DELETE FROM viaje WHERE idviaje = " . $this->getidviaje();
+                
+                if ($base->Ejecutar($consultaBorra)) {
+                    $resp = true;
+                }else{
+                    $this->setmensajeoperacion($base->getError());
+                }
             } else { //Si no se ejecuta la consulta
                 $this->setmensajeoperacion($base->getError());
             }
@@ -355,6 +344,7 @@ class Viaje
     {
         $pasajeros = new Pasajero;
         $condicion = "idviaje = " . $this->getidviaje();
+        
         $colPasajeros = $pasajeros->listar($condicion);
 
         foreach ($colPasajeros as $pasajero) {

@@ -235,5 +235,4 @@ class ResponsableV extends Persona
 		}
 		return $resp;
 	}
-
 }

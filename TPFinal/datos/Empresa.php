@@ -271,7 +271,7 @@ class Empresa
         $colViajes = $viajes->listar($condicion);
 
         foreach ($colViajes as $viaje) {
-            $viaje->eliminar();
+            $viaje->borrarViaje();
         }
         $this->eliminar();
     }
