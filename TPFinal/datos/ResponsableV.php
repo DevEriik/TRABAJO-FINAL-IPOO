@@ -235,4 +235,18 @@ class ResponsableV extends Persona
 		}
 		return $resp;
 	}
+
+	public function borrarResponsable()
+{
+    $viajes = new Viaje;
+    $condicion = "numeroEmpleado = " . $this->getRnumeroEmpleado();
+    $colViajes = $viajes->listar($condicion);
+
+    foreach ($colViajes as $viaje) {
+        $viaje->borrarViaje();
+    }
+    
+    // Después de eliminar todos los viajes, eliminar al responsable
+    $this->eliminar();
+}
 }

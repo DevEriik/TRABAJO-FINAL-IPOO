@@ -404,7 +404,7 @@ function eliminarResponsable($objResponsable)
             echo " ¡Alerta! :: Se borrarán los viajes vinculados a este responsable\n ¿Continuar? (s/n): ";
             $rta = trim(fgets(STDIN));
             if ($rta == "s") {
-                $objResponsable->eliminar(); //! NO NOS DEJA ELIMINAR EL RESPONSABLE CUANDO UN VIAJE TIENE PASAJEROS.
+                $objResponsable->borrarResponsable(); //! NO NOS DEJA ELIMINAR EL RESPONSABLE CUANDO UN VIAJE TIENE PASAJEROS.
                 echo "Responsable eliminado correctamente. \n";
             }
         } else {
