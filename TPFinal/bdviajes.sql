@@ -9,18 +9,18 @@ CREATE TABLE empresa (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 AUTO_INCREMENT = 1;
 
 CREATE TABLE persona (
-    idpersona bigint AUTO_INCREMENT, //!AGREGAMOS ESTE idpersona Con dudas
+    idpersona bigint AUTO_INCREMENT, /*AGREGAMOS ESTE idpersona Con dudas*/
     nrodocumento varchar(15),
     nombre varchar(150),
     apellido varchar(150),
-    telefono int, //!CAMBIAMOS A BIGINT porque nos tiraba un numero random
-    PRIMARY KEY (nrodocumento)
+    telefono bigint, /*CAMBIAMOS A BIGINT porque nos tiraba un numero random*/
+    PRIMARY KEY (idpersona)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 AUTO_INCREMENT = 1;
 
 CREATE TABLE responsable (
     numeroEmpleado bigint AUTO_INCREMENT,
     numerolicencia bigint,
-    nrodocumento varchar(15),
+    idpersona bigint, /*Cambie esto que era varchar(15) a bigint porque no me dejaba crear la tabla*/
     PRIMARY KEY (numeroEmpleado),
     FOREIGN KEY (idpersona) REFERENCES persona (idpersona)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 AUTO_INCREMENT = 1;
@@ -39,7 +39,7 @@ CREATE TABLE viaje (
 
 CREATE TABLE pasajero (
     idpasajero int AUTO_INCREMENT,
-    nrodocumento varchar(15),
+    idpersona bigint,
     idviaje bigint,
     PRIMARY KEY (idpasajero),
     FOREIGN KEY (idpersona) REFERENCES persona (idpersona),
