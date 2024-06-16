@@ -86,7 +86,7 @@ class Empresa
     {
         $msjToString = "ID Empresa: " . $this->getIdEmpresa() . "\n" .
             "Nombre: " . $this->getENombre() . "\n" .
-            "Dirección: " . $this->getEDireccion() . "\n";
+            "Dirección: " . $this->getEDireccion() . "\n\n";
         return $msjToString;
     }
 

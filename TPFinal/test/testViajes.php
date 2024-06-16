@@ -122,7 +122,7 @@ function insertarEmpresa($objEmpresa)
     $direccion = trim(fgets(STDIN));
     $objEmpresa->cargar("", $nombre, $direccion); //en insertar se setea el idEmpresa
     $objEmpresa->insertar();
-    echo "Empresa insertada correctamente";
+    echo "Empresa insertada correctamente.\n";
 }
 
 /**
@@ -145,9 +145,9 @@ function modificarEmpresa($objEmpresa)
             $direccion = trim(fgets(STDIN));
             $objEmpresa->cargar($id, $nombre, $direccion);
             $objEmpresa->modificar();
-            echo "Empresa modificada correctamente. ";
+            echo "Empresa modificada correctamente. \n";
         } else {
-            echo "ID de empresa inválido/innexistente. ";
+            echo "ID de empresa inválido/innexistente. \n";
         }
     } else {
         echo "Sin empresas cargadas en la BD. \n";
@@ -156,7 +156,7 @@ function modificarEmpresa($objEmpresa)
 /**
  * Elimina cualquier registro de una empresa
  */
-function eliminarEmpresa($objEmpresa, $objViaje)
+function eliminarEmpresa($objEmpresa, $objViaje, $objResponsable)
 {
     $colEmpresas = $objEmpresa->listar();
     if (!empty($colEmpresas)) {    //Mostrar empresas cargadas en la BD
@@ -165,17 +165,18 @@ function eliminarEmpresa($objEmpresa, $objViaje)
         echo "\nID de la empresa a eliminar: ";
         $id = trim(fgets(STDIN));
         if ($objEmpresa->buscar($id)) {
-            echo " ¡Alerta! :: Se borrarán todos los viajes vinculados a esta empresa\n ¿Continuar? (s/n): ";
+            echo " ¡Alerta! :: Se borrarán todos los viajes los responsables y los pasajeros vinculados a esta empresa\n ¿Continuar? (s/n): ";
             $rta = trim(fgets(STDIN));
             if ($rta == "s") {
                 $objEmpresa->borrarEmpresa();
                 $objViaje->borrarViaje();
-                echo "Empresa eliminada correctamente. ";
+                $objResponsable->borrarResponsable();
+                echo "Empresa eliminada correctamente. \n";
             } else {
-                echo "Operación cancelada. ";
+                echo "Operación cancelada. \n";
             }
         } else {
-            echo "ID de empresa inválido/innexistente. ";
+            echo "ID de empresa inválido/innexistente. \n";
         }
     } else {
         echo "Sin empresas cargadas en la BD. \n";
@@ -192,7 +193,7 @@ function insertarViaje($objEmpresa, $objViaje, $objResponsable)
     if (!empty($colEmpresas)) {
         echo "\nEmpresas disponibles:";
         muestraElementos($objEmpresa, "");
-        echo "\nID de la empresa que quiere administrar los viajes: ";
+        echo "\nID de la empresa con la que quiere realizar el viaje: ";
         $idEmpresa = trim(fgets(STDIN));
 
         //Verifico si existe la empresa elegida
@@ -209,7 +210,7 @@ function insertarViaje($objEmpresa, $objViaje, $objResponsable)
                 $importe = trim(fgets(STDIN));
                 echo "\nResponsables disponibles: ";
                 muestraElementos($objResponsable, "");
-                echo "\nSeleccione ID del empleado: ";
+                echo "\nSeleccione ID del empleado que se hara cargo del viaje: ";
                 $id = trim(fgets(STDIN));
 
                 //Verifico si existe el responsable elegido
@@ -222,10 +223,10 @@ function insertarViaje($objEmpresa, $objViaje, $objResponsable)
                     echo "ID de responsable inválido/innexistente. \n";
                 }
             } else {
-                echo "Sin responsables cargados en la BD. ";
+                echo "Sin responsables cargados en la BD. \n";
             }
         } else {
-            echo "ID de empresa inválido/innexistente. ";
+            echo "ID de empresa inválido/innexistente. \n";
         }
     } else {
         echo "Sin empresas cargadas en la BD. \n";
@@ -256,7 +257,7 @@ function modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero)
             $n = count($colPasajeros);
 
             if ($cantMax < $n) {
-                echo "La cantidad máxima de pasajeros no puede ser menor a la cantidad actual";
+                echo "La cantidad máxima de pasajeros no puede ser menor a la cantidad actual\n";
             } else {
                 //Pido datos del responsable y verifico si existe
                 echo "Responsables cargados a la BD: ";
@@ -289,7 +290,7 @@ function modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero)
             }
         }
     } else {
-        echo "Sin viajes cargados en la BD";
+        echo "Sin viajes cargados en la BD \n";
     }
 }
 
@@ -298,6 +299,7 @@ function modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero)
  */
 function eliminarViaje($objViaje)
 {
+
     $colViajes = $objViaje->listar();
     if (!empty($colViajes)) {
         echo "\nViajes cargados a la BD: ";
@@ -339,9 +341,9 @@ function insertarResponsable($objResponsable)
 
     if ($objResponsable->insertar()) {
 
-        echo "Responsable insertadado correctamente";
+        echo "Responsable insertadado correctamente\n";
     } else {
-        echo "No se pudo insertar al responsable correctamente";
+        echo "No se pudo insertar al responsable correctamente\n";
     }
 }
 
@@ -361,7 +363,7 @@ function modificarResponsable($objResponsable)
         echo "Responsables cargados a la BD: \n";
         muestraElementos($objResponsable, "");
 
-        echo "\nN° de empleado del responsable a modificar: ";
+        echo "\nID del empleado responsable a modificar: ";
         $idEmpleado = trim(fgets(STDIN));
 
         //Verifico que exista algún empleado con ese ID
@@ -371,18 +373,18 @@ function modificarResponsable($objResponsable)
             $nombre = trim(fgets(STDIN));
             echo "Nuevo apellido del responsable: ";
             $apellido = trim(fgets(STDIN));
-            echo "Nuevo N° del responsable: ";
+            echo "Nuevo N° de licencia: ";
             $nroLicencia = trim(fgets(STDIN));
-            echo "Nuevo Nº de telefono";
+            echo "Nuevo Nº de telefono: " ;
             $telefono = trim(fgets(STDIN));
             echo "Ingrese el N° de documento: ";
             $nroDoc =  trim(fgets(STDIN));
 
             $objResponsable->cargar($objResponsable->getIdPersona(), $nroDoc,  $nombre, $apellido, $telefono, $objResponsable->getRnumeroEmpleado() ,$nroLicencia);
             $objResponsable->modificar();
-            echo "Responsable modificado correctamente. ";
+            echo "Responsable modificado correctamente. \n\n";
         } else {
-            echo "ID responsable inválido/inválido. ";
+            echo "ID responsable inválido/inválido. \n\n";
         }
     }
 }
@@ -401,7 +403,7 @@ function eliminarResponsable($objResponsable)
         $id = trim(fgets(STDIN));
 
         if ($objResponsable->buscar($id)) {
-            echo " ¡Alerta! :: Se borrarán los viajes vinculados a este responsable\n ¿Continuar? (s/n): ";
+            echo " ¡Alerta! :: Se borrarán los viajes y los pasajeros vinculados a este responsable\n ¿Continuar? (s/n): ";
             $rta = trim(fgets(STDIN));
             if ($rta == "s") {
                 $objResponsable->borrarResponsable(); 
@@ -590,7 +592,7 @@ while ($opcionMenu != 5) {
                         break;
                     case 4:
                         //Eliminar una empresa
-                        eliminarEmpresa($objEmpresa, $objViaje);
+                        eliminarEmpresa($objEmpresa, $objViaje, $objResponsable);
                         break;
                 }
                 $opcionEmpresa = menuDeEmpresa();
