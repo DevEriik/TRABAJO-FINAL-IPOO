@@ -111,14 +111,14 @@ class ResponsableV extends Persona
 		$base = new BaseDatos();
 
 		//Asigno valor a la consulta y la trabajo con la condicional if
-		$consulta = "SELECT * FROM responsable ";		//! Pusimos select * from pasajero pero no sabemos si es SELECT * FROM pasajero 
+		$consulta = "SELECT * FROM responsable ";		
 
 		if ($condicion != "") {
 			$consulta = $consulta . ' where ' . $condicion;
 		}
 
 		//
-		$consulta .= " order by numeroEmpleado "; //! COMO LO ORDENAMOS? 
+		$consulta .= " order by numeroEmpleado ";
 
 		//Si se conecta a la base de datos
 		if ($base->Iniciar()) {

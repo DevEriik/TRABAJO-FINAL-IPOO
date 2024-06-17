@@ -1,7 +1,4 @@
 <?php
-/*
-! HACER FUNCION MOSTRAR PASAJERO
-*/
 
 class Viaje
 {

@@ -1,7 +1,5 @@
 <?php
-/*
-? Linea 238 --> $base = new BaseDatos();  //!NO SABEMOS PORQUE NOS TIRA ERROR ACA EN LA CONSULTA
-*/
+
 //! ******** CREO LA CLASE ******** 
 class Persona
 {
@@ -127,7 +125,7 @@ class Persona
                     $this->setNrodoc($row2['nrodocumento']);
                     $this->setNombre($row2['nombre']);
                     $this->setApellido($row2['apellido']);
-                    $this->setTelefono($row2['telefono']); //!VER COMO SE AGREGO EN LA BASE DE DATOS EL NOMBRE DE LA COLUMNA.
+                    $this->setTelefono($row2['telefono']);
                     $resp = true;
                 }
             } else {
@@ -175,7 +173,7 @@ class Persona
                     $NroDoc = $row2['nrodoc'];
                     $Nombre = $row2['nombre'];
                     $Apellido = $row2['apellido'];
-                    $Telefono = $row2['telefono']; //!VER COMO SE AGREGO EN LA BASE DE DATOS EL NOMBRE DE LA COLUMNA.
+                    $Telefono = $row2['telefono'];
 
                     $perso = new Persona();
                     $perso->cargar($idPerso,$NroDoc, $Nombre, $Apellido, $Telefono);
@@ -231,7 +229,7 @@ class Persona
     public function modificar()
     {
         $resp = false;
-        $base = new BaseDatos();  //!NO SABEMOS PORQUE NOS TIRA ERROR ACA EN LA CONSULTA
+        $base = new BaseDatos();
         $consultaModifica = "UPDATE persona SET nrodocumento='" . $this->getNrodoc() . "', nombre='" . $this->getNombre() . "', apellido='" . $this->getApellido() . "',telefono='" . $this->getTelefono() . "' WHERE idpersona = " . $this->getIdPersona();
         // echo $consultaModifica . "\n";
         if ($base->Iniciar()) {
