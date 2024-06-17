@@ -275,6 +275,48 @@ class Persona
     }
 
 
+    /**
+     * Busca una persona por dni
+     */
+
+     public function buscarPorDni($dni){
+        $base = new BaseDatos();
+        $consultaPersona = "Select * from persona where nrodocumento = " . $dni;
+        $resp = false;
+
+        //Si se conecta a la base de datos
+        if ($base->Iniciar()){
+
+            //Si se ejecuta la consulta
+            if ($base->Ejecutar($consultaPersona)){
+                //
+                if ($base->Registro()) {
+                    $resp = true;
+                }
+            } else {
+                $this->setmensajeoperacion($base->getError());
+            }
+        } else {
+            $this->setmensajeoperacion($base->getError());
+        }
+        return $resp;
+    
+     }
+
+     /**
+     * Retorna una cadena de caracteres
+     */
+
+     public function retornaCadena($coleccion){
+        $cadena=" ";
+        foreach($coleccion as $elemento){
+            $cadena=$cadena." ".$elemento."\n";
+    
+        }
+        return $cadena;
+    }
+
+
     //! ******** __toString ******** 
     public function __toString()
     {

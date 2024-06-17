@@ -225,7 +225,7 @@ function insertarViaje($objEmpresa, $objViaje, $objResponsable)
             } else {
                 echo "Sin responsables cargados en la BD. \n";
             }
-        }else{
+        } else {
             echo "ID de empresa inválido/innexistente. \n";
         }
     } else {
@@ -263,7 +263,7 @@ function modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero)
                 echo "Responsables cargados a la BD: ";
                 muestraElementos($objResponsable, "");
                 echo "\nIngrese el ID del empleado que va a dirigir el viaje: "; //? es ID persona
-                 
+
                 $idEmpleado = trim(fgets(STDIN)) . "\n";
 
                 //Si existe responsable, verifico que exista la empresa
@@ -327,23 +327,26 @@ function insertarResponsable($objResponsable)
 {
     echo "Numero de documento del responsable: ";
     $nrodocumento = trim(fgets(STDIN));
-    echo "Nombre del responsable: ";
-    $nombre = trim(fgets(STDIN));
-    echo "Apellido del responsable: ";
-    $apellido = trim(fgets(STDIN));
-    echo "Teléfono del responsable: ";
-    $telefono = trim(fgets(STDIN));
-    echo "Número de licencia: ";
-    $nroLicencia = trim(fgets(STDIN));
-
-    $objResponsable->cargar("", $nrodocumento,  $nombre, $apellido, $telefono, "" ,$nroLicencia);
-    
-
-    if ($objResponsable->insertar()) {
-
-        echo "Responsable insertadado correctamente\n";
+    if ($objResponsable->buscarPorDni($nrodocumento)) {
+        echo "El resposable ya esta cargado en la BD.\n";
     } else {
-        echo "No se pudo insertar al responsable correctamente\n";
+        echo "Nombre del responsable: ";
+        $nombre = trim(fgets(STDIN));
+        echo "Apellido del responsable: ";
+        $apellido = trim(fgets(STDIN));
+        echo "Teléfono del responsable: ";
+        $telefono = trim(fgets(STDIN));
+        echo "Número de licencia: ";
+        $nroLicencia = trim(fgets(STDIN));
+
+        $objResponsable->cargar("", $nrodocumento,  $nombre, $apellido, $telefono, "", $nroLicencia);
+
+        if ($objResponsable->insertar()) {
+
+            echo "Responsable insertadado correctamente\n";
+        } else {
+            echo "No se pudo insertar al responsable correctamente\n";
+        }
     }
 }
 
@@ -380,7 +383,7 @@ function modificarResponsable($objResponsable)
             echo "Ingrese el N° de documento: ";
             $nroDoc =  trim(fgets(STDIN));
 
-            $objResponsable->cargar($objResponsable->getIdPersona(), $nroDoc,  $nombre, $apellido, $telefono, $objResponsable->getRnumeroEmpleado() ,$nroLicencia);
+            $objResponsable->cargar($objResponsable->getIdPersona(), $nroDoc,  $nombre, $apellido, $telefono, $objResponsable->getRnumeroEmpleado(), $nroLicencia);
             $objResponsable->modificar();
             echo "Responsable modificado correctamente. \n\n";
         } else {
@@ -406,7 +409,7 @@ function eliminarResponsable($objResponsable)
             echo " ¡Alerta! :: Se borrarán los viajes y los pasajeros vinculados a este responsable\n ¿Continuar? (s/n): ";
             $rta = trim(fgets(STDIN));
             if ($rta == "s") {
-                $objResponsable->borrarResponsable(); 
+                $objResponsable->borrarResponsable();
                 echo "Responsable eliminado correctamente. \n";
             }
         } else {
@@ -422,6 +425,8 @@ function eliminarResponsable($objResponsable)
  */
 function insertarPasajero()
 {
+    $objPersona = new Persona();
+
     $objPasajero = new Pasajero();
     $objViaje = new Viaje();
     $colViajes = $objViaje->listar();
@@ -433,9 +438,9 @@ function insertarPasajero()
         $idViaje = trim(fgets(STDIN));
 
         // Verifico si $idViaje es un número entero
-        if (filter_var($idViaje, FILTER_VALIDATE_INT) !== false){
-        // Convierto $idViaje a un entero
-        $idViaje = (int)$idViaje;
+        if (filter_var($idViaje, FILTER_VALIDATE_INT) !== false) {
+            // Convierto $idViaje a un entero
+            $idViaje = (int)$idViaje;
 
             //Compruebo si este viaje existe
             if ($objViaje->buscar($idViaje)) {
@@ -453,12 +458,12 @@ function insertarPasajero()
                     $dni = trim(fgets(STDIN));
 
                     // Verifico si $dni es un número entero
-                    if (filter_var($dni, FILTER_VALIDATE_INT) !== false){
-                    // Convierto $dni a un entero
-                    $dni = (int)$dni;
-    
-                        if ($objPasajero->buscar($dni)) {
-                            echo "Error, el DNI ya existe. ";
+                    if (filter_var($dni, FILTER_VALIDATE_INT) !== false) {
+                        // Convierto $dni a un entero
+                        $dni = (int)$dni;
+
+                        if ($objPersona->buscarPorDni($dni)) {
+                            echo "El pasajero ya esta en el viaje.\n";
                         } else {
                             echo "Ingrese el nombre del pasajero: ";
                             $nombre = trim(fgets(STDIN));
@@ -468,26 +473,26 @@ function insertarPasajero()
                             $telefono = trim(fgets(STDIN));
 
                             // Verifico si $telefono es un número entero
-                            if (filter_var($telefono, FILTER_VALIDATE_INT) !== false){
-                            // Convierto $telefono a un entero
-                            $telefono = (int)$telefono;
-    
+                            if (filter_var($telefono, FILTER_VALIDATE_INT) !== false) {
+                                // Convierto $telefono a un entero
+                                $telefono = (int)$telefono;
+
                                 $pasajero = new Pasajero;
-                                $pasajero->cargar($pasajero->getIdPersona(),$dni, $nombre, $apellido, $telefono, $objViaje, $pasajero->getIdPasajero());
+                                $pasajero->cargar($pasajero->getIdPersona(), $dni, $nombre, $apellido, $telefono, $objViaje, $pasajero->getIdPasajero());
                                 $pasajero->insertar();
                                 echo "Pasajero insertado correctamente. \n";
-                            }else{
+                            } else {
                                 echo "Debe ingresar sólo número, sin espacios, caracteres especiales u otro elemento extraño.\n";
                             }
                         }
-                    }else{
+                    } else {
                         echo "Debe ingresar un número entero.\n";
                     }
                 }
             } else {
                 echo "ID de viaje inválido/innexistente. \n";
             }
-        }else{
+        } else {
             echo "Debe ingresar un número entero.\n";
         }
     } else {

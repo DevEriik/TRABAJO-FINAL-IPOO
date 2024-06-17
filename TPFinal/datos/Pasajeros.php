@@ -236,5 +236,12 @@ class Pasajero extends Persona
 		return $resp; 
 	}
 
-	
+	/**
+     * Busca una persona por dni
+     */
+
+     public function buscarPorDni($dni){ 
+		$verifica = parent::buscarPorDni($dni);
+		return $verifica;
+     }
 }

@@ -18,7 +18,7 @@ class ResponsableV extends Persona
 	}
 
 	//! ******** Creo la funcion cargar ******** 
-	public function cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono,$rnumeroEmpleado = null, $rnumeroLicencia=null)
+	public function cargar($idPerso = null, $NroD, $Nom, $Ape, $telefono, $rnumeroEmpleado = null, $rnumeroLicencia = null)
 	{
 		parent::cargar($idPerso, $NroD, $Nom, $Ape, $telefono);
 		$this->setRnumeroEmpleado($rnumeroEmpleado);
@@ -237,16 +237,27 @@ class ResponsableV extends Persona
 	}
 
 	public function borrarResponsable()
-{
-    $viajes = new Viaje;
-    $condicion = "numeroEmpleado = " . $this->getRnumeroEmpleado();
-    $colViajes = $viajes->listar($condicion);
+	{
+		$viajes = new Viaje;
+		$condicion = "numeroEmpleado = " . $this->getRnumeroEmpleado();
+		$colViajes = $viajes->listar($condicion);
 
-    foreach ($colViajes as $viaje) {
-        $viaje->borrarViaje();
-    }
-    
-    // Después de eliminar todos los viajes, eliminar al responsable
-    $this->eliminar();
-}
+		foreach ($colViajes as $viaje) {
+			$viaje->borrarViaje();
+		}
+
+		// Después de eliminar todos los viajes, eliminar al responsable
+		$this->eliminar();
+	}
+
+	/**
+     * Busca una persona por dni
+     */
+
+     public function buscarPorDni($dni){ 
+		$verifica = parent::buscarPorDni($dni);
+		return $verifica;
+     }
+
+	
 }
