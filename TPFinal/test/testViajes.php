@@ -592,7 +592,7 @@ function modificarPasajero($objViaje, $objPasajero)
         echo "Pasajeros cargados a la BD: ";
         muestraElementos($objPasajero, "");
 
-        echo "\nDNI del pasajero a modificar: ";
+        echo "\nID del pasajero a modificar: ";
         $dni = trim(fgets(STDIN));
 
         //Verificamos que exista algún pasajero con ese dni
@@ -638,7 +638,7 @@ function modificarPasajero($objViaje, $objPasajero)
             }
         } else {
             echo "\n**************************************\n";
-            echo "  DNI de pasajero inválido/innexistente. \n";
+            echo "  ID de pasajero inválido/innexistente. \n";
             echo "**************************************\n\n";
         }
     }
