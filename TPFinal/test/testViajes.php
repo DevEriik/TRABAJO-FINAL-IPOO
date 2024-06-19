@@ -304,7 +304,7 @@ function modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero)
 
                     //Si la empresa existe, pido importe nuevo y modifico el viaje
                     if ($objEmpresa->buscar($idEmpresa)) {
-                        echo "Importe: $";
+                        echo "Importe: $'";
                         $importe = trim(fgets(STDIN));
                         $objViaje->cargar($idViaje, $destino, $cantMax, $objEmpresa, $objResponsable, $importe);
                         $objViaje->modificar();
@@ -625,20 +625,20 @@ function modificarPasajero($objViaje, $objPasajero)
                     echo "**************************************\n\n";
                 } elseif ($asientosDisponibles > 0) {
 
-                    $objPasajero->cargar($dni, $nombre, $apellido, $telefono, $idViaje);
+                    $objPasajero->cargar($objPasajero->getIdPersona(),$dni, $nombre, $apellido, $telefono, $objViaje, $objPasajero->getIdPasajero());
                     $objPasajero->modificar();
                     echo "\n**************************************\n";
-                    echo "  Pasajero modificado correctamente. ";
+                    echo "  Pasajero modificado correctamente. \n";
                     echo "**************************************\n\n";
                 }
             } else {
                 echo "\n**************************************\n";
-                echo "  ID de viaje inválido/innexistente. ";
+                echo "  ID de viaje inválido/innexistente. \n";
                 echo "**************************************\n\n";
             }
         } else {
             echo "\n**************************************\n";
-            echo "  DNI de pasajero inválido/innexistente. ";
+            echo "  DNI de pasajero inválido/innexistente. \n";
             echo "**************************************\n\n";
         }
     }
