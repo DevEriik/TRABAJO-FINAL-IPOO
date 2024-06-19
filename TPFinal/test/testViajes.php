@@ -304,7 +304,7 @@ function modificarViaje($objViaje, $objEmpresa, $objResponsable, $objPasajero)
 
                     //Si la empresa existe, pido importe nuevo y modifico el viaje
                     if ($objEmpresa->buscar($idEmpresa)) {
-                        echo "Importe: $'";
+                        echo "Importe: $";
                         $importe = trim(fgets(STDIN));
                         $objViaje->cargar($idViaje, $destino, $cantMax, $objEmpresa, $objResponsable, $importe);
                         $objViaje->modificar();
@@ -593,16 +593,18 @@ function modificarPasajero($objViaje, $objPasajero)
         muestraElementos($objPasajero, "");
 
         echo "\nID del pasajero a modificar: ";
-        $dni = trim(fgets(STDIN));
+        $id = trim(fgets(STDIN));
 
         //Verificamos que exista algún pasajero con ese dni
-        if ($objPasajero->buscar($dni)) {
+        if ($objPasajero->buscar($id)) {
             echo "Nuevo nombre del pasajero: ";
             $nombre = trim(fgets(STDIN));
             echo "Nuevo apellido del pasajero: ";
             $apellido = trim(fgets(STDIN));
             echo "Nuevo N° de teléfono: ";
             $telefono = trim(fgets(STDIN));
+            echo "Nuevo numero de documento: "; 
+            $dni = trim(fgets(STDIN));
 
             //Mostramos colección de viajes
             echo "\n\nViajes cargados a la BD: ";
