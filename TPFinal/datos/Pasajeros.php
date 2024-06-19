@@ -79,7 +79,7 @@ class Pasajero extends Persona
 		$base = new BaseDatos();
 		$consulta = "SELECT * from pasajero where idpersona = " . $idpersona;
 		$resp = false;
-
+		
 		//Si se conecta a la base de datos
 		if ($base->Iniciar()) {
 			if ($base->Ejecutar($consulta)) {
