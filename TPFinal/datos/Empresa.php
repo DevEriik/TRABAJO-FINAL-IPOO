@@ -230,6 +230,37 @@ class Empresa
         return $resp;
     }
 
+    // public function modificar()
+    // {
+    //     // Inicializo variables
+    //     $resp = false;
+    //     $base = new BaseDatos();
+    
+    //     // Verifico si la empresa existe utilizando el método Buscar
+    //     if ($this->Buscar($this->getIdEmpresa())) {
+    //         // Si la empresa existe, procedemos con la actualización
+    //         $consultaModifica = "UPDATE empresa SET enombre = '" . $this->getENombre() . "', edireccion = '" . $this->getEDireccion() . "' WHERE idempresa = " . $this->getIdEmpresa();
+    
+    //         // Si se conecta a la base de datos
+    //         if ($base->Iniciar()) {
+    //             // Si se ejecuta la consulta
+    //             if ($base->Ejecutar($consultaModifica)) {
+    //                 $resp = true;
+    //             } else { // Si no se ejecuta la consulta 
+    //                 $this->setMensajeOperacion($base->getError());
+    //             }
+    //         } else { // Si no se conecta a la base de datos
+    //             $this->setMensajeOperacion($base->getError());
+    //         }
+    //     } else {
+    //         // Si la empresa no existe
+    //         echo "LLAASLALDKADKKAKADKA\n";
+    //         $this->setMensajeOperacion("La empresa con id " . $this->getIdEmpresa() . " no existe.");
+    //     }
+    
+    //     return $resp;
+    // }
+
 
     //! ******** ELIMINAR ******** 
     /**
