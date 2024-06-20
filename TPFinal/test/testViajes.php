@@ -140,19 +140,18 @@ function modificarEmpresa($objEmpresa)
 
         echo "\nID de la empresa a modificar: ";
         $id = trim(fgets(STDIN));
-        if ($objEmpresa->buscar($id)) {
-            echo "Nuevo nombre de la empresa: ";
-            $nombre = trim(fgets(STDIN));
-            echo "Nueva dirección de la empresa: ";
-            $direccion = trim(fgets(STDIN));
-            $objEmpresa->cargar($id, $nombre, $direccion);
-            $objEmpresa->modificar();
+        echo "Nuevo nombre de la empresa: ";
+        $nombre = trim(fgets(STDIN));
+        echo "Nueva dirección de la empresa: ";
+        $direccion = trim(fgets(STDIN));
+        $objEmpresa->cargar($id, $nombre, $direccion);
+        if ($objEmpresa->modificar()) { //!Modificaciones a pedido de Juanma se realiza la validacion desde el backend para ver si existe una empresa con el id ingresado
             echo "\n**************************************\n";
             echo "  Empresa modificada correctamente. \n";
             echo "**************************************\n\n";
         } else {
             echo "\n**************************************\n";
-            echo "  ID de empresa inválido/innexistente. \n";
+            echo "No se encontro el id ingresado  \n";
             echo "**************************************\n\n";
         }
     } else {
@@ -603,7 +602,7 @@ function modificarPasajero($objViaje, $objPasajero)
             $apellido = trim(fgets(STDIN));
             echo "Nuevo N° de teléfono: ";
             $telefono = trim(fgets(STDIN));
-            echo "Nuevo numero de documento: "; 
+            echo "Nuevo numero de documento: ";
             $dni = trim(fgets(STDIN));
 
             //Mostramos colección de viajes
@@ -627,7 +626,7 @@ function modificarPasajero($objViaje, $objPasajero)
                     echo "**************************************\n\n";
                 } elseif ($asientosDisponibles > 0) {
 
-                    $objPasajero->cargar($objPasajero->getIdPersona(),$dni, $nombre, $apellido, $telefono, $objViaje, $objPasajero->getIdPasajero());
+                    $objPasajero->cargar($objPasajero->getIdPersona(), $dni, $nombre, $apellido, $telefono, $objViaje, $objPasajero->getIdPasajero());
                     $objPasajero->modificar();
                     echo "\n**************************************\n";
                     echo "  Pasajero modificado correctamente. \n";
