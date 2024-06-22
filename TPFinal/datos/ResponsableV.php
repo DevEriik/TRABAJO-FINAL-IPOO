@@ -78,19 +78,19 @@ class ResponsableV extends Persona
 		$resp = false;
 
 		//Si se conecta a la base de datos
-		if ($base->Iniciar()) {
-			if ($base->Ejecutar($consulta)) {
+		if($base->Iniciar()){
+			if($base->Ejecutar($consulta)){
 
-				if ($row2 = $base->Registro()) {
+				if($row2 = $base->Registro()){
 					parent::Buscar($idpersona);
 					$this->setRnumeroEmpleado($row2['numeroEmpleado']);
 					$this->setRnumeroLicencia($row2['numerolicencia']);
 					$resp = true;
 				}
-			} else {
+			}else{
 				$this->setMensajeoperacion($base->getError());
 			}
-		} else { //Si no se conecta a la base de datos
+		}else{ //Si no se conecta a la base de datos
 			$this->setMensajeOperacion($base->getError());
 		}
 		return $resp;
@@ -113,7 +113,7 @@ class ResponsableV extends Persona
 		//Asigno valor a la consulta y la trabajo con la condicional if
 		$consulta = "SELECT * FROM responsable ";		
 
-		if ($condicion != "") {
+		if($condicion != ""){
 			$consulta = $consulta . ' where ' . $condicion;
 		}
 
@@ -121,23 +121,23 @@ class ResponsableV extends Persona
 		$consulta .= " order by numeroEmpleado ";
 
 		//Si se conecta a la base de datos
-		if ($base->Iniciar()) {
+		if($base->Iniciar()){
 
 			//Si se ejecuta la consulta
-			if ($base->Ejecutar($consulta)) {
+			if($base->Ejecutar($consulta)){
 				$arreglo = array();
 
 				//
-				while ($row2 = $base->Registro()) {
+				while($row2 = $base->Registro()){
 					$obj = new ResponsableV();
 					$obj->Buscar($row2['idpersona']);
 					//Agrego el responsable al array
 					array_push($arreglo, $obj);
 				}
-			} else { //Si no se ejecuta la consulta
+			}else{ //Si no se ejecuta la consulta
 				$this->setMensajeOperacion($base->getError());
 			}
-		} else { //Si no se conecta a la base de datos
+		}else{ //Si no se conecta a la base de datos
 			$this->setMensajeOperacion($base->getError());
 		}
 		return $arreglo;
@@ -156,19 +156,19 @@ class ResponsableV extends Persona
 		$base = new BaseDatos();
 		$resp = false;
 		//
-		if (parent::insertar()) {
+		if(parent::insertar()){
 			$consultaInsertar = "INSERT INTO responsable (idpersona,numerolicencia)
 				VALUES ('" . parent::getIdPersona() . "','" . $this->getRnumeroLicencia() . "')";
 			//Si se conecta a la base de datos
-			if ($base->Iniciar()) {
+			if($base->Iniciar()){
 
 				//Si se ejecuta la consulta
-				if ($base->Ejecutar($consultaInsertar)) {
+				if($base->Ejecutar($consultaInsertar)){
 					$resp =  true;
-				} else { //Si no se ejecuta la consulta 
+				}else{ //Si no se ejecuta la consulta 
 					$this->setMensajeoperacion($base->getError());
 				}
-			} else { //Si no se conecta a la base de datos
+			}else{ //Si no se conecta a la base de datos
 				$this->setMensajeoperacion($base->getError());
 			}
 		}
@@ -186,19 +186,19 @@ class ResponsableV extends Persona
 	{
 		$resp = false;
 		$base = new BaseDatos();
-		if (parent::modificar()) {
+		if(parent::modificar()){
 			$consultaModifica = "UPDATE responsable SET numerolicencia =" . $this->getRnumeroLicencia() . " WHERE numeroEmpleado = " . $this->getRnumeroEmpleado();
 			// echo $consultaModifica . "\n";
 			//Si se conecta a la base de datos 
-			if ($base->Iniciar()) {
+			if($base->Iniciar()){
 
 				//Si se ejecuta la consulta
-				if ($base->Ejecutar($consultaModifica)) {
+				if($base->Ejecutar($consultaModifica)){
 					$resp = true;
-				} else { //Si no se ejecuta la consulta 
+				}else{ //Si no se ejecuta la consulta 
 					$this->setmensajeOperacion($base->getError());
 				}
-			} else { //Si no se conecta a la base de datos
+			}else{ //Si no se conecta a la base de datos
 				$this->setmensajeOperacion($base->getError());
 			}
 			return $resp;
@@ -219,22 +219,23 @@ class ResponsableV extends Persona
 		$resp = false;
 
 		//Si se conecta a la base de datos
-		if ($base->Iniciar()) {
+		if($base->Iniciar()){
 			$consultaBorra = "DELETE FROM responsable WHERE idpersona =" . parent::getIdPersona();
 
 			//Si se ejecuta la consulta
-			if ($base->Ejecutar($consultaBorra)) {
-				if (parent::eliminar()) {
+			if($base->Ejecutar($consultaBorra)){
+				if(parent::eliminar()){
 					$resp = true;
 				}
-			} else { //Si no puede ejecutar la consulta
+			}else{ //Si no puede ejecutar la consulta
 				$this->setMensajeOperacion($base->getError());
 			}
-		} else { //Si no puede conectarse a la base de datos
+		}else{ //Si no puede conectarse a la base de datos
 			$this->setMensajeOperacion($base->getError());
 		}
 		return $resp;
 	}
+
 
 	public function borrarResponsable()
 	{
@@ -242,22 +243,21 @@ class ResponsableV extends Persona
 		$condicion = "numeroEmpleado = " . $this->getRnumeroEmpleado();
 		$colViajes = $viajes->listar($condicion);
 
-		foreach ($colViajes as $viaje) {
+		foreach($colViajes as $viaje){
 			$viaje->borrarViaje();
 		}
 
-		// Después de eliminar todos los viajes, eliminar al responsable
+		//Después de eliminar todos los viajes, eliminar al responsable
 		$this->eliminar();
 	}
 
 	/**
      * Busca una persona por dni
      */
-
-     public function buscarPorDni($dni){ 
+    public function buscarPorDni($dni){ 
 		$verifica = parent::buscarPorDni($dni);
 		return $verifica;
-     }
+    }
 
 	
 }
