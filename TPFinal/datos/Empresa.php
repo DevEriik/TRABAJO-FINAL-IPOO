@@ -108,19 +108,19 @@ class Empresa
         $resp = false;
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
             //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaPersona)) {
-                if ($row2 = $base->Registro()) {
+            if($base->Ejecutar($consultaPersona)){
+                if($row2 = $base->Registro()){
                     $this->setIdEmpresa($idEmpresa);
                     $this->setENombre($row2['enombre']);
                     $this->setEDireccion($row2['edireccion']);
                     $resp = true;
                 }
-            } else { //Si no se ejecuta la consulta
+            }else{ //Si no se ejecuta la consulta
                 $this->setMensajeOperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;
@@ -140,18 +140,18 @@ class Empresa
         $arregloEmpresa = null;
         $base = new BaseDatos();
         $consultaEmpresa = "SELECT * FROM empresa ";
-        if ($condicion != "") {
+        if($condicion != ""){
             $consultaEmpresa = $consultaEmpresa . ' where ' . $condicion;
         }
         $consultaEmpresa .= " order by enombre ";
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
 
             //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaEmpresa)) {
+            if($base->Ejecutar($consultaEmpresa)){
                 $arregloEmpresa = array();
-                while ($row2 = $base->Registro()) {
+                while($row2 = $base->Registro()){
                     $IdEmpresa = $row2['idempresa'];
                     $ENombre = $row2['enombre'];
                     $EDireccion = $row2['edireccion'];
@@ -160,10 +160,10 @@ class Empresa
                     $empre->cargar($IdEmpresa, $ENombre, $EDireccion);
                     array_push($arregloEmpresa, $empre);
                 }
-            } else { //Si no se ejecuta la consulta 
+            }else{ //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $arregloEmpresa;
@@ -181,20 +181,22 @@ class Empresa
         //Inicializo variables
         $base = new BaseDatos();
         $resp = false;
+
+        //Consulta a realizar
         $consultaInsertar = "INSERT INTO empresa( enombre, edireccion)
 				VALUES ('" . $this->getENombre() . "','" . $this->getEDireccion() . "')";
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
 
             //Si se ejecuta la consulta
-            if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
+            if($id = $base->devuelveIDInsercion($consultaInsertar)){
                 $this->setIdEmpresa($id);
                 $resp = true;
-            } else { //Si no se ejecuta la consulta 
+            }else{ //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
         return $resp;
@@ -213,24 +215,27 @@ class Empresa
         $resp = false;
         $base = new BaseDatos();
 
-
+        //Consulta a realizar
         $consultaModifica = "UPDATE empresa SET enombre = '" . $this->getENombre() . "', edireccion = '" . $this->getEDireccion() . "' WHERE idempresa = " . $this->getIdEmpresa();
-        if ($this->Buscar($this->getIdEmpresa())) { //!Buscamos la empresa por el id ingresado desde el backend
-            //Si se conecta a la base de datos
-            if ($base->Iniciar()) {
 
-                //Si se ejecuta la consulta
-                if ($base->Ejecutar($consultaModifica)) {
-                    $resp = true;
-                } else { //Si no se ejecuta la consulta 
+            //Si se conecta a la base de datos
+            if($base->Iniciar()){
+
+                //Verifico si existe la empresa que deseo modificar
+                if($this->Buscar($this->getIdEmpresa())){ 
+
+                    //Si se ejecuta la consulta
+                    if($base->Ejecutar($consultaModifica)){
+                        $resp = true;
+                    }else{ //Si no se ejecuta la consulta 
+                        $this->setMensajeOperacion($base->getError());
+                    }
+                }else{ //Si la empresa buscada no existe
                     $this->setMensajeOperacion($base->getError());
                 }
-            } else { //Si no se conecta a la base de datos
+            }else{ //Si no se conecta a la base de datos
                 $this->setMensajeOperacion($base->getError());
             }
-        } else {
-            $this->setMensajeOperacion($base->getError());
-        }
         return $resp;
     }
 
@@ -248,22 +253,26 @@ class Empresa
         $resp = false;
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
 
+            //Consulta a realizar
             $consultaBorra = "DELETE FROM empresa WHERE idEmpresa = " . $this->getIdEmpresa();
+                
+            //Verifico si existe la empresa que deseo modificar
+            if($this->Buscar($this->getIdEmpresa())){
 
-            //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaBorra)) {
-                $resp = true;
-            } else { //Si no se ejecuta la consulta 
+                    //Si se ejecuta la consulta
+                if($base->Ejecutar($consultaBorra)){
+                    $resp = true;
+                }else{ //Si no se ejecuta la consulta 
+                    $this->setMensajeOperacion($base->getError());
+                }
+            }else{ //Si la empresa buscada no existe
                 $this->setMensajeOperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
-
-
-
         return $resp;
     }
 
@@ -278,7 +287,7 @@ class Empresa
         $condicion = "idempresa = " . $this->getIdEmpresa();
         $colViajes = $viajes->listar($condicion);
 
-        foreach ($colViajes as $viaje) {
+        foreach($colViajes as $viaje){
             $viaje->borrarViaje();
         }
         $this->eliminar();

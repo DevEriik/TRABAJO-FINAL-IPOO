@@ -134,27 +134,36 @@ function insertarEmpresa($objEmpresa)
 function modificarEmpresa($objEmpresa)
 {
     $colEmpresas = $objEmpresa->listar();
-    if (!empty($colEmpresas)) {
+    if(!empty($colEmpresas)){
         echo "Empresas cargadas en la BD: ";
         muestraElementos($objEmpresa, "");
 
         echo "\nID de la empresa a modificar: ";
         $id = trim(fgets(STDIN));
-        echo "Nuevo nombre de la empresa: ";
-        $nombre = trim(fgets(STDIN));
-        echo "Nueva dirección de la empresa: ";
-        $direccion = trim(fgets(STDIN));
-        $objEmpresa->cargar($id, $nombre, $direccion);
-        if ($objEmpresa->modificar()) { //!Modificaciones a pedido de Juanma se realiza la validacion desde el backend para ver si existe una empresa con el id ingresado
+
+        //Verificar si la empresa existe
+        if($objEmpresa->Buscar($id)){
+            echo "Nuevo nombre de la empresa: ";
+            $nombre = trim(fgets(STDIN));
+            echo "Nueva dirección de la empresa: ";
+            $direccion = trim(fgets(STDIN));
+            $objEmpresa->cargar($id, $nombre, $direccion);
+
+            if($objEmpresa->modificar()){
+                echo "\n**************************************\n";
+                echo "  Empresa modificada correctamente. \n";
+                echo "**************************************\n\n";
+            }else{
+                echo "\n**************************************\n";
+                echo "Error al modificar la empresa: " . $objEmpresa->getMensajeOperacion() . "\n";
+                echo "**************************************\n\n";
+            }
+        }else{
             echo "\n**************************************\n";
-            echo "  Empresa modificada correctamente. \n";
-            echo "**************************************\n\n";
-        } else {
-            echo "\n**************************************\n";
-            echo "No se encontro el id ingresado  \n";
+            echo "No se encontró una empresa con el ID ingresado.\n";
             echo "**************************************\n\n";
         }
-    } else {
+    }else{
         echo "\n**************************************\n";
         echo "  Sin empresas cargadas en la BD. \n";
         echo "**************************************\n\n";

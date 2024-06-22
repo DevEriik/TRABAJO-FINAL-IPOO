@@ -81,18 +81,18 @@ class Pasajero extends Persona
 		$resp = false;
 		
 		//Si se conecta a la base de datos
-		if ($base->Iniciar()) {
-			if ($base->Ejecutar($consulta)) {
-				if ($row2 = $base->Registro()) {
+		if($base->Iniciar()){
+			if($base->Ejecutar($consulta)){
+				if($row2 = $base->Registro()){
 					parent::Buscar($idpersona);
 
 					$this->setObjViaje($row2['idviaje']);
 					$resp = true;
 				}
-			} else { //Si no se ejecuta la consulta
+			}else{ //Si no se ejecuta la consulta
 				$this->setMensajeoperacion($base->getError());
 			}
-		} else { //Si no se conecta a la base de datos
+		}else{ //Si no se conecta a la base de datos
 			$this->setMensajeOperacion($base->getError());
 		}
 		return $resp;
@@ -115,32 +115,30 @@ class Pasajero extends Persona
 		//Asigno valor a la consulta y la trabajo con la condicional if
 		$consulta = "select * from pasajero ";
 
-		if ($condicion != "") {
+		if($condicion != ""){
 			$consulta = $consulta . ' where ' . $condicion;
 		}
 
-		//
 		$consulta .= " order by idpasajero ";
 
 		//echo $consultaPersonas;
 		//Si se conecta a la base de datos
-		if ($base->Iniciar()) {
+		if($base->Iniciar()){
 
 			//Si se ejecuta la consulta
-			if ($base->Ejecutar($consulta)) {
+			if($base->Ejecutar($consulta)){
 				$arreglo = array();
 
-				//
-				while ($row2 = $base->Registro()) {
+				while($row2 = $base->Registro()){
 					$obj = new Pasajero();
 					$obj->Buscar($row2['idpersona']);
 					//Agrego el pasajero al array
 					array_push($arreglo, $obj);
 				}
-			} else { //Si no se ejecuta la consulta
+			}else{ //Si no se ejecuta la consulta
 				$this->setMensajeOperacion($base->getError());
 			}
-		} else { //Si no se conecta a la base de datos
+		}else{ //Si no se conecta a la base de datos
 			$this->setMensajeOperacion($base->getError());
 		}
 		return $arreglo;
@@ -159,18 +157,17 @@ class Pasajero extends Persona
 		$base = new BaseDatos();
 		$resp = false;
 
-		//
-		if (parent::insertar()) {
+		if(parent::insertar()){
 			$consultaInsertar = "INSERT INTO pasajero(idpersona, idviaje)
 				VALUES ('" . parent::getIdPersona() . "'," . $this->getobjViaje()->getidviaje() . ")";
 
-			if ($base->Iniciar()) {
-				if ($base->Ejecutar($consultaInsertar)) {
+			if($base->Iniciar()){
+				if($base->Ejecutar($consultaInsertar)){
 					$resp =  true;
-				} else {
+				}else{ //Si no se ejecuta la consulta
 					$this->setMensajeoperacion($base->getError());
 				}
-			} else {
+			}else{ //Si no se conecta a la base de datos
 				$this->setMensajeoperacion($base->getError());
 			}
 		}
@@ -186,21 +183,28 @@ class Pasajero extends Persona
 	 */
 	public function modificar()
 	{
+		//Inicializo variables
 		$resp = false;
 		$base = new BaseDatos();
-		if (parent::modificar()) {
-			$consultaModifica = "UPDATE pasajero SET   idviaje = " . $this->getobjViaje()->getidviaje() . " WHERE idpasajero = " . $this->getIdPasajero(); //! Ver esto
+		if(parent::modificar()){
+			$consultaModifica = "UPDATE pasajero SET   idviaje = " . $this->getobjViaje()->getidviaje() . " WHERE idpasajero = " . $this->getIdPasajero();
 
 			//Si se conecta a la base de datos 
-			if ($base->Iniciar()) {
+			if($base->Iniciar()){
 
-				//Si se ejecuta la consulta
-				if ($base->Ejecutar($consultaModifica)) {
-					$resp = true;
-				} else { //Si no se ejecuta la consulta 
-					$this->setmensajeOperacion($base->getError());
+				//Verifico si existe el pasajero que deseo modificar
+				if($this->Buscar($this->getIdPasajero())){
+
+					//Si se ejecuta la consulta
+					if($base->Ejecutar($consultaModifica)){
+						$resp = true;
+					}else{ //Si no se ejecuta la consulta 
+						$this->setmensajeOperacion($base->getError());
+					}
+				}else{ //Si el pasajero buscado no existe
+					$this->setMensajeOperacion($base->getError());
 				}
-			} else { //Si no se conecta a la base de datos
+			}else{ //Si no se conecta a la base de datos
 				$this->setmensajeOperacion($base->getError());
 			}
 			return $resp;
@@ -221,27 +225,34 @@ class Pasajero extends Persona
 		$resp = false;
 
 		//Si se conecta a la base de datos
-		if ($base->Iniciar()) {
+		if($base->Iniciar()){
 			$consultaBorra = "DELETE FROM pasajero WHERE idpersona = " . parent::getIdPersona();
 
-			//Si se ejecuta la consulta
-			if ($base->Ejecutar($consultaBorra)) {
-				if (parent::eliminar()) {
-					$resp = true;
+			//Verifico si existe el pasajero que deseo modificar
+			if($this->Buscar($this->getIdPasajero())){
+
+					//Si se ejecuta la consulta
+				if($base->Ejecutar($consultaBorra)){
+
+					if(parent::eliminar()){
+						$resp = true;
+					}
+				}else{ //Si no puede ejecutar la consulta
+					$this->setMensajeOperacion($base->getError());
 				}
-			} else { //Si no puede ejecutar la consulta
+			}else{ //Si el pasajero buscado no existe
 				$this->setMensajeOperacion($base->getError());
 			}
-		} else { //Si no puede conectarse a la base de datos
+		}else{ //Si no puede conectarse a la base de datos
 			$this->setMensajeOperacion($base->getError());
 		}
 		return $resp;
 	}
 
+
 	/**
 	 * Busca una persona por dni
 	 */
-
 	public function buscarPorDni($dni)
 	{
 		$verifica = parent::buscarPorDni($dni);

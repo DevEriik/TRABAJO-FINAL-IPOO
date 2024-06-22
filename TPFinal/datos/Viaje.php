@@ -162,11 +162,11 @@ class Viaje
         $resp = false;
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
 
             //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaIdViajeIngresado)) {
-                if ($row2 = $base->Registro()) {
+            if($base->Ejecutar($consultaIdViajeIngresado)){
+                if($row2 = $base->Registro()){
 
                     //*Listo el viaje
                     $this->setidviaje($idviaje);
@@ -183,10 +183,10 @@ class Viaje
                     $this->setvimporte($row2['vimporte']);
                     $resp = true;
                 }
-            } else { //Si no se ejecuta la consulta
+            }else{ //Si no se ejecuta la consulta
                 $this->setmensajeoperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
@@ -206,16 +206,16 @@ class Viaje
         $arregloViaje = null;
         $base = new BaseDatos();
         $consultaViaje = "SELECT * FROM viaje ";
-        if ($condicion != "") {
+        if($condicion != ""){
             $consultaViaje = $consultaViaje . ' where ' . $condicion;
         }
         $consultaViaje .= " order by idviaje ";
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
 
             //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaViaje)) {
+            if($base->Ejecutar($consultaViaje)){
                 $arregloViaje = array();
                 while ($row2 = $base->Registro()) {
                     $idviaje = $row2['idviaje'];
@@ -229,10 +229,10 @@ class Viaje
                     $viaj->cargar($idviaje, $destino, $cantMaxPasajeros, $idempresa, $numeroempleado, $importe);
                     array_push($arregloViaje, $viaj);
                 }
-            } else { //Si no se ejecuta la consulta
+            }else{ //Si no se ejecuta la consulta
                 $this->setmensajeoperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setmensajeoperacion($base->getError());
         }
         return $arregloViaje;
@@ -254,16 +254,16 @@ class Viaje
 				VALUES ('" . $this->getvdestino() . "','" . $this->getvcantmaxpasajeros() . "','" . $this->getobjIdEmpresa()->getIdEmpresa() . "','" . $this->getobjResponsableV()->getrnumeroempleado() . "','" . $this->getvimporte() . "')";
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
 
             //Si se ejecuta la consulta
-            if ($id = $base->devuelveIDInsercion($consultaInsertar)) {
+            if($id = $base->devuelveIDInsercion($consultaInsertar)){
                 $this->setidviaje($id);
                 $resp = true;
-            } else { //Si no se ejecuta la consulta
+            }else{ //Si no se ejecuta la consulta
                 $this->setmensajeoperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
@@ -281,18 +281,26 @@ class Viaje
         //Inicializo variables
         $resp = false;
         $base = new BaseDatos();
+
+        //Consulta a realizar
         $consultaModifica = "UPDATE viaje SET vdestino = '" . $this->getvdestino() . "',vcantmaxpasajeros = '" . $this->getvcantmaxpasajeros() . "',idempresa = " . $this->getobjIdEmpresa()->getidempresa() . ",numeroEmpleado = " . $this->getobjResponsableV()->getrnumeroempleado() . ",vimporte = ". $this->getvimporte() ." WHERE idviaje = " . $this->getidviaje();
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
 
-            //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaModifica)) {
-                $resp = true;
-            } else { //Si no se ejecuta la consulta
-                $this->setmensajeoperacion($base->getError());
+            //Verifico si existe el viaje que deseo modificar
+            if($this->Buscar($this->getidviaje())){ 
+
+                //Si se ejecuta la consulta
+                if($base->Ejecutar($consultaModifica)){
+                    $resp = true;
+                }else{ //Si no se ejecuta la consulta
+                    $this->setmensajeoperacion($base->getError());
+                }
+            }else{ //Si el viaje buscado no existe
+                $this->setMensajeOperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
@@ -312,31 +320,37 @@ class Viaje
         $resp = false;
 
         //Si se conecta a la base de datos
-        if ($base->Iniciar()) {
+        if($base->Iniciar()){
+            //Consulta a realizar
             $consultaBorraPasajeros = "DELETE FROM pasajero WHERE idviaje = " . $this->getidviaje();
         
-            //Si se ejecuta la consulta
-            if ($base->Ejecutar($consultaBorraPasajeros)) {
-                $consultaBorra = "DELETE FROM viaje WHERE idviaje = " . $this->getidviaje();
-                
-                if ($base->Ejecutar($consultaBorra)) {
-                    $resp = true;
-                }else{
+            //Verifico si existe el viaje que deseo modificar
+            if($this->Buscar($this->getidviaje())){ 
+                //Si se ejecuta la consulta
+                if($base->Ejecutar($consultaBorraPasajeros)){
+                    $consultaBorra = "DELETE FROM viaje WHERE idviaje = " . $this->getidviaje();
+                    
+                    if($base->Ejecutar($consultaBorra)){
+                        $resp = true;
+                    }else{ //Si no se ejecuta la consulta
+                        $this->setmensajeoperacion($base->getError());
+                    }
+                }else{ //Si no se ejecuta la consulta
                     $this->setmensajeoperacion($base->getError());
                 }
-            } else { //Si no se ejecuta la consulta
-                $this->setmensajeoperacion($base->getError());
+            }else{ //Si el viaje buscado no existe
+                $this->setMensajeOperacion($base->getError());
             }
-        } else { //Si no se conecta a la base de datos
+        }else{ //Si no se conecta a la base de datos
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
     }
 
+
     /**
      * Elimina pasajeros relacionados al viaje y despues se elimina asi misma 
      */
-
     public function borrarViaje()
     {
         $pasajeros = new Pasajero;
@@ -344,18 +358,17 @@ class Viaje
         
         $colPasajeros = $pasajeros->listar($condicion);
 
-        foreach ($colPasajeros as $pasajero) {
+        foreach($colPasajeros as $pasajero){
             $pasajero->eliminar();
         }
-
         $this->eliminar();
     }
+
 
     /**
      * Retorna una cadena de caracteres
      */
-
-     public function retornaCadena($coleccion){
+    public function retornaCadena($coleccion){
         $cadena=" ";
         foreach($coleccion as $elemento){
             $cadena=$cadena." ".$elemento."\n";
