@@ -307,46 +307,38 @@ class Viaje
     }
 
 
-    //! ******** ELIMINAR ******** 
+    //! ** ELIMINAR ** 
     /**
      * Elimina el registro de un viaje de la coleccion de viajes.
      * Retorna true si pudo eliminarlo y false en caso contrario.
-     * @return BOOLEAN $resp 
+     * @return BOOLEAN $resp
      */
-    public function eliminar()
-    {
+    public function eliminar(){
         //Inicializo variables
-        $base = new BaseDatos();
         $resp = false;
+        $base = new BaseDatos();
 
         //Si se conecta a la base de datos
-        if($base->Iniciar()){
-            //Consulta a realizar
+        if ($base->Iniciar()) {
             $consultaBorraPasajeros = "DELETE FROM pasajero WHERE idviaje = " . $this->getidviaje();
-        
-            //Verifico si existe el viaje que deseo modificar
-            if($this->Buscar($this->getidviaje())){ 
-                //Si se ejecuta la consulta
-                if($base->Ejecutar($consultaBorraPasajeros)){
-                    $consultaBorra = "DELETE FROM viaje WHERE idviaje = " . $this->getidviaje();
-                    
-                    if($base->Ejecutar($consultaBorra)){
-                        $resp = true;
-                    }else{ //Si no se ejecuta la consulta
-                        $this->setmensajeoperacion($base->getError());
-                    }
-                }else{ //Si no se ejecuta la consulta
+
+            //Si se ejecuta la consulta
+            if ($base->Ejecutar($consultaBorraPasajeros)) {
+                $consultaBorra = "DELETE FROM viaje WHERE idviaje = " . $this->getidviaje();
+
+                if ($base->Ejecutar($consultaBorra)) {
+                    $resp = true;
+                }else{
                     $this->setmensajeoperacion($base->getError());
                 }
-            }else{ //Si el viaje buscado no existe
-                $this->setMensajeOperacion($base->getError());
+            } else { //Si no se ejecuta la consulta
+                $this->setmensajeoperacion($base->getError());
             }
-        }else{ //Si no se conecta a la base de datos
+        } else { //Si no se conecta a la base de datos
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
     }
-
 
     /**
      * Elimina pasajeros relacionados al viaje y despues se elimina asi misma 

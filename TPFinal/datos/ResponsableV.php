@@ -192,11 +192,17 @@ class ResponsableV extends Persona
 			//Si se conecta a la base de datos 
 			if($base->Iniciar()){
 
-				//Si se ejecuta la consulta
-				if($base->Ejecutar($consultaModifica)){
-					$resp = true;
-				}else{ //Si no se ejecuta la consulta 
-					$this->setmensajeOperacion($base->getError());
+				//Verifico si existe el responsable que deseo modificar
+				if($this->Buscar(parent::getIdPersona())){
+
+					//Si se ejecuta la consulta
+					if($base->Ejecutar($consultaModifica)){
+						$resp = true;
+					}else{ //Si no se ejecuta la consulta 
+						$this->setmensajeOperacion($base->getError());
+					}
+				}else{ //Si el responsable buscado no existe
+					$this->setMensajeOperacion($base->getError());
 				}
 			}else{ //Si no se conecta a la base de datos
 				$this->setmensajeOperacion($base->getError());

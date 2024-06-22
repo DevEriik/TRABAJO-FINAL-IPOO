@@ -213,7 +213,7 @@ class Persona
             } else {
                 $this->setmensajeOperacion($base->getError());
             }
-        } else {
+        } else { //Si no se conecta a la base de datos
             $this->setmensajeOperacion($base->getError());
         }
         return $resp;
@@ -233,12 +233,19 @@ class Persona
         $consultaModifica = "UPDATE persona SET nrodocumento='" . $this->getNrodoc() . "', nombre='" . $this->getNombre() . "', apellido='" . $this->getApellido() . "',telefono='" . $this->getTelefono() . "' WHERE idpersona = " . $this->getIdPersona();
         // echo $consultaModifica . "\n";
         if ($base->Iniciar()) {
-            if ($base->Ejecutar($consultaModifica)) {
-                $resp = true;
-            } else {
-                $this->setmensajeOperacion($base->getError());
+
+            //Verifico si existe la persona que deseo modificar
+            if($this->Buscar($this->getIdPersona())){
+
+                if ($base->Ejecutar($consultaModifica)) {
+                    $resp = true;
+                } else { //Si no se ejecuta la consulta 
+                    $this->setmensajeOperacion($base->getError());
+                }
+            }else{ //Si la persona buscada no existe
+                $this->setMensajeOperacion($base->getError());
             }
-        } else {
+        } else { //Si no se conecta a la base de datos
             $this->setmensajeOperacion($base->getError());
         }
         return $resp;
@@ -263,10 +270,10 @@ class Persona
             //Si se ejecuta la consulta
             if ($base->Ejecutar($consultaBorra)){
                 $resp = true;
-            } else {
+            } else { //Si no se ejecuta la consulta 
                 $this->setmensajeOperacion($base->getError());
             }
-        } else {
+        } else { //Si no se conecta a la base de datos
             $this->setmensajeOperacion($base->getError());
         }
         return $resp;
@@ -276,8 +283,7 @@ class Persona
     /**
      * Busca una persona por dni
      */
-
-     public function buscarPorDni($dni){
+    public function buscarPorDni($dni){
         $base = new BaseDatos();
         $consultaPersona = "Select * from persona where nrodocumento = " . $dni;
         $resp = false;
@@ -291,21 +297,21 @@ class Persona
                 if ($base->Registro()) {
                     $resp = true;
                 }
-            } else {
+            } else { //Si no se ejecuta la consulta 
                 $this->setmensajeoperacion($base->getError());
             }
-        } else {
+        } else { //Si no se conecta a la base de datos
             $this->setmensajeoperacion($base->getError());
         }
         return $resp;
     
-     }
+    }
 
-     /**
+    /**
      * Retorna una cadena de caracteres
      */
 
-     public function retornaCadena($coleccion){
+    public function retornaCadena($coleccion){
         $cadena=" ";
         foreach($coleccion as $elemento){
             $cadena=$cadena." ".$elemento."\n";

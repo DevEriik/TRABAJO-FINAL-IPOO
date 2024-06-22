@@ -218,36 +218,28 @@ class Pasajero extends Persona
 	 * Retorna true si pudo eliminarlo y false en caso contrario.
 	 * @return BOOLEAN $resp 
 	 */
-	public function eliminar()
-	{
+	public function eliminar(){
 		//Inicializo variables
 		$base = new BaseDatos();
 		$resp = false;
 
-		//Si se conecta a la base de datos
-		if($base->Iniciar()){
-			$consultaBorra = "DELETE FROM pasajero WHERE idpersona = " . parent::getIdPersona();
+        //Si se conecta a la base de datos
+        if ($base->Iniciar()) {
+            $consultaBorra = "DELETE FROM pasajero WHERE idpersona = " . parent::getIdPersona();
 
-			//Verifico si existe el pasajero que deseo modificar
-			if($this->Buscar($this->getIdPasajero())){
-
-					//Si se ejecuta la consulta
-				if($base->Ejecutar($consultaBorra)){
-
-					if(parent::eliminar()){
-						$resp = true;
-					}
-				}else{ //Si no puede ejecutar la consulta
-					$this->setMensajeOperacion($base->getError());
-				}
-			}else{ //Si el pasajero buscado no existe
-				$this->setMensajeOperacion($base->getError());
-			}
-		}else{ //Si no puede conectarse a la base de datos
-			$this->setMensajeOperacion($base->getError());
-		}
-		return $resp;
-	}
+            //Si se ejecuta la consulta
+            if ($base->Ejecutar($consultaBorra)) {
+                if (parent::eliminar()) {
+                    $resp = true;
+                }
+            } else { //Si no puede ejecutar la consulta
+                $this->setMensajeOperacion($base->getError());
+            }
+        } else { //Si no puede conectarse a la base de datos
+            $this->setMensajeOperacion($base->getError());
+        }
+        return $resp;
+    }
 
 
 	/**

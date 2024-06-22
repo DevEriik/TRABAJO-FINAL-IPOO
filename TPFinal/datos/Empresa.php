@@ -246,36 +246,30 @@ class Empresa
      * Retorna true si pudo eliminarlo y false en caso contrario.
      * @return BOOLEAN $resp 
      */
-    public function eliminar()
-    {
+    public function eliminar(){
         //Inicializo variables
         $base = new BaseDatos();
         $resp = false;
 
         //Si se conecta a la base de datos
-        if($base->Iniciar()){
+        if ($base->Iniciar()) {
 
-            //Consulta a realizar
             $consultaBorra = "DELETE FROM empresa WHERE idEmpresa = " . $this->getIdEmpresa();
-                
-            //Verifico si existe la empresa que deseo modificar
-            if($this->Buscar($this->getIdEmpresa())){
 
-                    //Si se ejecuta la consulta
-                if($base->Ejecutar($consultaBorra)){
-                    $resp = true;
-                }else{ //Si no se ejecuta la consulta 
-                    $this->setMensajeOperacion($base->getError());
-                }
-            }else{ //Si la empresa buscada no existe
+            //Si se ejecuta la consulta
+            if ($base->Ejecutar($consultaBorra)) {
+                $resp = true;
+            } else { //Si no se ejecuta la consulta 
                 $this->setMensajeOperacion($base->getError());
             }
-        }else{ //Si no se conecta a la base de datos
+        } else { //Si no se conecta a la base de datos
             $this->setMensajeOperacion($base->getError());
         }
+
+
+
         return $resp;
     }
-
 
     /**
      * Elimina viajes relacionados a la empresa seleccionada y despues se elimina asi misma 
